@@ -1,5 +1,6 @@
 package window;
 
+import controller.LoginController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -31,14 +33,16 @@ public class LoginScreen extends Application {
     public void start(Stage primaryStage) {
         createPane();
         setupLabelsAndFields();
-        setupButtons();
+        setupButtons(primaryStage);
         addNodesToFlow();
         
         StackPane root = new StackPane();
         root.getChildren().add(flow);
-        
         Scene scene = new Scene(root, 200, 150);
-        
+
+        primaryStage.setOnCloseRequest((WindowEvent t) -> {
+            LoginController.logout();
+        });
         primaryStage.setTitle("Login");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
@@ -59,11 +63,16 @@ public class LoginScreen extends Application {
         passwordTextField = new PasswordField();
     }
 
-    private void setupButtons() {
+    private void setupButtons(Stage primaryStage) {
         loginButton = new Button();
         loginButton.setText("Login");
         loginButton.setOnAction((ActionEvent event) -> {
-            System.out.println("Hello World!");
+            if (LoginController.login(userTextField.getText(), passwordTextField.getText())) {
+                System.out.println("Login Successful");
+                LoginController.openSainScreen(primaryStage);
+            } else {
+                System.out.println("Login Unsuccessful");
+            }
         });
         
         registerButton = new Button();
@@ -75,7 +84,7 @@ public class LoginScreen extends Application {
         cancelButton = new Button();
         cancelButton.setText("Cancel");
         cancelButton.setOnAction((ActionEvent event) -> {
-            Platform.exit();
+            primaryStage.close();
         });
     }
 
