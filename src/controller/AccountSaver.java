@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.util.HashMap;
 import dataModel.Accounts;
 import dataModel.Admin;
+import dataModel.Instructor;
+import dataModel.Student;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
@@ -59,6 +61,8 @@ public class AccountSaver {
     private static HashMap<String, Accounts> initializeAccountMap() {
         HashMap<String, Accounts> map = new HashMap<>();
         map.put("hernf07", new Admin("hernf07", "test", "Fernando", "Hernandez", "00268"));
+        map.put("hernf08", new Instructor("hernf08", "test", "Fefe", "Hern", "0202FE"));
+        map.put("hernf09", new Student("hernf09", "test", "Fefef", "Hernh", "0202EE"));
         return map;
     }
     

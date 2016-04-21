@@ -13,17 +13,14 @@ import javafx.stage.Stage;
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
 public class AdminSain extends Application {
+    private Button createAccountButton;
     
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Hello Admin");
-        btn.setOnAction((ActionEvent event) -> {
-            System.out.println("Hello World!");
-        });
+        createButtons();
         
         StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        root.getChildren().add(createAccountButton);
         
         Scene scene = new Scene(root, 300, 250);
         
@@ -32,11 +29,14 @@ public class AdminSain extends Application {
         primaryStage.show();
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
+    private void createButtons() {
+        createAccountButton = new Button();
+        createAccountButton.setText("Create New Account");
+        createAccountButton.setOnAction((ActionEvent event) -> {
+            Stage stage = new Stage();
+            stage.setScene(RegisterAccountWindow.createScene());
+            stage.show();
+        });
     }
     
 }
