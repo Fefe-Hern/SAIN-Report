@@ -1,6 +1,9 @@
 package window;
 
+import controller.AccountSaver;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -9,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -28,7 +33,10 @@ public class RegisterAccountWindow {
    static TextField userNameField;
    static TextField passwordField;
    static TextField idField;
-   static RadioButton radioButton;
+   static RadioButton studentButton;
+   static RadioButton instructorButton;
+   static RadioButton adminButton;
+   final static ToggleGroup group = new ToggleGroup();
    static Button createButton;
    static Button cancelButton;
     
@@ -55,9 +63,17 @@ public class RegisterAccountWindow {
         passwordField = new TextField();
         idField = new TextField();
         
+        createRadioButtons();
+        
         createButton = new Button("Create Account");
         createButton.setOnAction((ActionEvent event) -> {
-            System.out.println("Good Job");
+            
+            if(AccountSaver.saveAccount(firstNameField.getText(), lastNameField.getText(),
+                    userNameField.getText(), passwordField.getText(), idField.getText(),
+                    (String) group.getSelectedToggle().getUserData())) {
+                Stage stage = (Stage) createButton.getScene().getWindow();
+                stage.close();
+            }
         });
         
         cancelButton = new Button("Cancel");
@@ -70,9 +86,23 @@ public class RegisterAccountWindow {
     
     private static GridPane createLayout() {
         GridPane grid = new GridPane();
-        grid.addColumn(0, firstNameLabel, lastNameLabel, userNameLabel, passwordLabel, idLabel, createButton);
+        grid.addColumn(0, firstNameLabel, lastNameLabel, userNameLabel, passwordLabel, idLabel, studentButton, instructorButton, adminButton, createButton);
         grid.addColumn(1, firstNameField, lastNameField, userNameField, passwordField, idField, cancelButton);
         return grid;
+    }
+
+    private static void createRadioButtons() {
+        studentButton = new RadioButton("Student");
+        instructorButton = new RadioButton("Instructor");
+        adminButton = new RadioButton("Admin");
+        studentButton.setToggleGroup(group);
+        studentButton.setSelected(true);
+        instructorButton.setToggleGroup(group);
+        adminButton.setToggleGroup(group);
+        
+        studentButton.setUserData("Student");
+        instructorButton.setUserData("Instructor");
+        adminButton.setUserData("Admin");
     }
 
 }

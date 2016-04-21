@@ -12,6 +12,14 @@ public class Major {
     private double GPAreq;
     private int totalCredits;
     private ArrayList<Course> classesNeeded;
+    private ArrayList<Course> cstCourses;
+    private ArrayList<Course> engCourses;
+    private ArrayList<Course> matCourses;
+    private ArrayList<Course> labCourses;
+    private ArrayList<Course> humCourses;
+    private ArrayList<Course> hisCourses;
+    private ArrayList<Course> pedCourses;
+    private ArrayList<Course> socCourses;
 
     public Major(String codeName, String name, double GPAreq, int totalCredits) {
         this.codeName = codeName;
@@ -52,4 +60,5 @@ public class Major {
     public void setTotalCredits(int totalCredits) {
         this.totalCredits = totalCredits;
     }
+    
 }

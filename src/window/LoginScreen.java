@@ -26,7 +26,6 @@ public class LoginScreen extends Application {
     private TextField passwordTextField;
     private Button loginButton;
     private Button cancelButton;
-    private Button registerButton;
     private FlowPane flow;
     
     @Override
@@ -75,12 +74,6 @@ public class LoginScreen extends Application {
             }
         });
         
-        registerButton = new Button();
-        registerButton.setText("Register");
-        registerButton.setOnAction((ActionEvent event) -> {
-            System.out.println("Hello World!");
-        });
-        
         cancelButton = new Button();
         cancelButton.setText("Cancel");
         cancelButton.setOnAction((ActionEvent event) -> {
@@ -93,7 +86,7 @@ public class LoginScreen extends Application {
         flow.getChildren().add(userTextField);
         flow.getChildren().add(passwordLabel);
         flow.getChildren().add(passwordTextField);
-        flow.getChildren().addAll(loginButton, registerButton, cancelButton);
+        flow.getChildren().addAll(loginButton, cancelButton);
     }
     
 }

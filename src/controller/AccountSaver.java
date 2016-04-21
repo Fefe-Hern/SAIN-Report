@@ -9,11 +9,10 @@ import dataModel.Accounts;
 import dataModel.Admin;
 import dataModel.Instructor;
 import dataModel.Student;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  *
@@ -78,8 +77,35 @@ public class AccountSaver {
     public static boolean addAccount(Accounts newAccount) {
         if(!accountMap.containsKey(newAccount.getUserName())) {
             accountMap.put(newAccount.getUserName(), newAccount);
+            save();
             return true;
         }
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Taken Username Error");
+        alert.setHeaderText("Error:");
+        alert.setContentText("The username " + newAccount.getUserName() + " has been taken");
+        alert.showAndWait();
+        return false;
+    }
+
+    public static boolean saveAccount(String firstName, String lastName, String userName,
+            String password, String id, String type) {
+        if (!firstName.isEmpty() && !lastName.isEmpty() && !userName.isEmpty() && !password.isEmpty() && !id.isEmpty()) {
+            switch (type) {
+                case "Student":
+                    return addAccount(new Student(userName, password, firstName, lastName, id));
+                case "Instructor":
+                    return addAccount(new Instructor(userName, password, firstName, lastName, id));
+                case "Admin":
+                    return addAccount(new Admin(userName, password, firstName, lastName, id));
+            }
+        }
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Empty Textfield Error");
+        alert.setHeaderText("Error:");
+        alert.setContentText("One or more of the textfields were empty.");
+        alert.showAndWait();
+        
         return false;
     }
 }
