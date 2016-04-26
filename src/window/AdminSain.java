@@ -19,6 +19,7 @@ import javafx.stage.WindowEvent;
 public class AdminSain extends Application {
     private Button createAccountButton;
     private Button logoutButton;
+    private Button editMajorsButton;
     
     private TilePane pane;
     
@@ -44,6 +45,7 @@ public class AdminSain extends Application {
         pane = new TilePane(5, 5);
         pane.setPrefColumns(2);
         pane.getChildren().add(createAccountButton);
+        pane.getChildren().add(editMajorsButton);
         pane.getChildren().add(logoutButton);
         
     }
@@ -53,6 +55,13 @@ public class AdminSain extends Application {
         createAccountButton.setOnAction((ActionEvent event) -> {
             Stage stage = new Stage();
             stage.setScene(RegisterAccountWindow.createScene());
+            stage.show();
+        });
+        
+        editMajorsButton = new Button("Edit Majors");
+        editMajorsButton.setOnAction((ActionEvent event) -> {
+            Stage stage = new Stage();
+            stage.setScene(EditMajorWindow.createScene());
             stage.show();
         });
         

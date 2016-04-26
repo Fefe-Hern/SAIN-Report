@@ -1,12 +1,13 @@
 package dataModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class Major {
+public class Major implements Serializable {
     private final String codeName;
     private String name;
     private double GPAreq;
@@ -21,11 +22,10 @@ public class Major {
     private ArrayList<Course> pedCourses;
     private ArrayList<Course> socCourses;
 
-    public Major(String codeName, String name, double GPAreq, int totalCredits) {
+    public Major(String codeName, String name, double GPAreq) {
         this.codeName = codeName;
         this.name = name;
         this.GPAreq = GPAreq;
-        this.totalCredits = totalCredits;
         classesNeeded = new ArrayList<>();
     }
     
