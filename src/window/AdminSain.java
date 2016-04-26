@@ -61,7 +61,7 @@ public class AdminSain extends Application {
         editMajorsButton = new Button("Edit Majors");
         editMajorsButton.setOnAction((ActionEvent event) -> {
             Stage stage = new Stage();
-            stage.setScene(EditMajorWindow.createScene());
+            stage.setScene(MajorWindow.createScene());
             stage.show();
         });
         

@@ -47,7 +47,7 @@ public class AddMajorWindow {
     private static void addFields() {
         nameLabel = new Label("Major Name: ");
         codeNameLabel = new Label("Code Name (Key Field): ");
-        gpaReqLabel = new Label("GPA Requirement to Obtain: ");
+        gpaReqLabel = new Label("GPA Requirement: ");
         nameField = new TextField();
         codeNameField = new TextField();
         gpaField = new TextField();

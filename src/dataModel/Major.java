@@ -29,6 +29,14 @@ public class Major implements Serializable {
         classesNeeded = new ArrayList<>();
     }
     
+    public ArrayList<Course> getCoursesNeeded() {
+        ArrayList<Course> copyOfClassesNeeded = new ArrayList<>();
+        for (int i = 0; i < classesNeeded.size(); i++) {
+            copyOfClassesNeeded.add(classesNeeded.get(i));
+        }
+        return copyOfClassesNeeded;
+    }
+    
     public boolean addClassToMajor(Course classToAdd) {
         return classesNeeded.add(classToAdd);
     }
