@@ -12,37 +12,29 @@ public class Major implements Serializable {
     private String name;
     private double GPAreq;
     private int totalCredits;
-    private ArrayList<Course> classesNeeded;
-    private ArrayList<Course> cstCourses;
-    private ArrayList<Course> engCourses;
-    private ArrayList<Course> matCourses;
-    private ArrayList<Course> labCourses;
-    private ArrayList<Course> humCourses;
-    private ArrayList<Course> hisCourses;
-    private ArrayList<Course> pedCourses;
-    private ArrayList<Course> socCourses;
+    private ArrayList<Elective> electivesNeeded;
 
     public Major(String codeName, String name, double GPAreq) {
         this.codeName = codeName;
         this.name = name;
         this.GPAreq = GPAreq;
-        classesNeeded = new ArrayList<>();
+        electivesNeeded = new ArrayList<>();
     }
     
-    public ArrayList<Course> getCoursesNeeded() {
-        ArrayList<Course> copyOfClassesNeeded = new ArrayList<>();
-        for (int i = 0; i < classesNeeded.size(); i++) {
-            copyOfClassesNeeded.add(classesNeeded.get(i));
+    public ArrayList<Elective> getElectivesNeeded() {
+        ArrayList<Elective> copyOfElectivesNeeded = new ArrayList<>();
+        for (int i = 0; i < electivesNeeded.size(); i++) {
+            copyOfElectivesNeeded.add(electivesNeeded.get(i));
         }
-        return copyOfClassesNeeded;
+        return copyOfElectivesNeeded;
     }
     
-    public boolean addClassToMajor(Course classToAdd) {
-        return classesNeeded.add(classToAdd);
+    public boolean addElectiveToMajor(Elective electiveToAdd) {
+        return electivesNeeded.add(electiveToAdd);
     }
     
-    public boolean removeClassFromMajor(Course classToRemove) {
-        return classesNeeded.remove(classToRemove);
+    public boolean removeElectiveFromMajor(Elective electiveToRemove) {
+        return electivesNeeded.remove(electiveToRemove);
     }
 
     public String getCodeName() {

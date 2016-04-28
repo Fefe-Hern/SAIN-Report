@@ -20,6 +20,7 @@ public class AdminSain extends Application {
     private Button createAccountButton;
     private Button logoutButton;
     private Button editMajorsButton;
+    private Button editElectivesButton;
     
     private TilePane pane;
     
@@ -47,6 +48,7 @@ public class AdminSain extends Application {
         pane.getChildren().add(createAccountButton);
         pane.getChildren().add(editMajorsButton);
         pane.getChildren().add(logoutButton);
+        pane.getChildren().add(editElectivesButton);
         
     }
     
@@ -62,6 +64,13 @@ public class AdminSain extends Application {
         editMajorsButton.setOnAction((ActionEvent event) -> {
             Stage stage = new Stage();
             stage.setScene(MajorWindow.createScene());
+            stage.show();
+        });
+        
+        editElectivesButton = new Button("Edit Electives");
+        editElectivesButton.setOnAction((ActionEvent event) -> {
+            Stage stage = new Stage();
+            stage.setScene(ElectiveWindow.createScene());
             stage.show();
         });
         

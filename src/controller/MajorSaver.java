@@ -1,6 +1,7 @@
 package controller;
 
 import dataModel.Course;
+import dataModel.Elective;
 import dataModel.Major;
 import java.io.File;
 import java.io.FileInputStream;
@@ -134,10 +135,15 @@ public class MajorSaver {
         });
     }
 
-    public static void loadCoursesForMajor(String codeName) {
-        ArrayList<Course> courseList = majorMap.get(codeName).getCoursesNeeded();
-        for (int i = 0; i < courseList.size(); i++) {
-            EditMajorWindow.addCourseToData(courseList.get(i).getCodeName());
+    public static void loadElectivesForMajor(String codeName) {
+        ArrayList<Elective> electiveList = majorMap.get(codeName).getElectivesNeeded();
+        for (int i = 0; i < electiveList.size(); i++) {
+            EditMajorWindow.addElectiveToData(electiveList.get(i).getCodeName());
+        }
+    }
+    public static void loadAllElectives() {
+        for (int i = 0; i < ElectiveSaver.passElectiveMapSize(); i++) {
+            //EditMajorWindow.addElectiveToListOfAllData(ElectiveSaver.);
         }
     }
 
@@ -156,4 +162,5 @@ public class MajorSaver {
     public static Major passMajorToView(String codeName) {
         return majorMap.get(codeName);
     }
+
 }

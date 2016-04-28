@@ -9,11 +9,13 @@ public class Serializer {
         AccountSaver.initialize();
         MajorSaver.initialize();
         CourseSaver.initialize();
+        ElectiveSaver.initialize();
     }
     
     static void saveFiles() {
         AccountSaver.save();
         MajorSaver.save();
         CourseSaver.save();
+        ElectiveSaver.save();
     }
 }

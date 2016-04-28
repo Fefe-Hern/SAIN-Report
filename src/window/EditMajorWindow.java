@@ -29,9 +29,11 @@ import javafx.stage.Stage;
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
 public class EditMajorWindow {
-   static ListView<String> courseList = new ListView<>();
+   static ListView<String> electiveList = new ListView<>();
+   static ListView<String> allElectives = new ListView<>(); // To move to electiveList
    static ObservableList<String> data;
-   static final Label COURSENAMELABEL = new Label();
+   static ObservableList<String> dataOfAllElectives;
+   static final Label ELECTIVENAMELABEL = new Label();
    static Label nameLabel;
    static Label codeNameLabel;
    static Label gpaReqLabel;
@@ -42,12 +44,14 @@ public class EditMajorWindow {
    static TextField totalCreditsField;
    static Button changeGpaButton;
    static Button cancelButton;
+   static Button addElectiveToMajorButton;
     
    private static String codeName;
    
     public static Scene createScene(String name) {
         codeName = name;
         createListView(codeName);
+        createListOfAllElectives();
         addFields();
         acquireMajorInfo();
         GridPane grid = createLayout();
@@ -83,6 +87,11 @@ public class EditMajorWindow {
             }
         });
         
+        addElectiveToMajorButton = new Button("Add New Elective");
+        addElectiveToMajorButton.setOnAction((ActionEvent event) -> {
+            
+        });
+        
         cancelButton = new Button("Close");
         cancelButton.setOnAction((ActionEvent event) -> {
             Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -104,24 +113,34 @@ public class EditMajorWindow {
         GridPane grid = new GridPane();
         grid.addColumn(0, nameLabel, codeNameLabel, gpaReqLabel, totalCreditsLabel, changeGpaButton);
         grid.addColumn(1, nameField, codeNameField, gpaField, totalCreditsField, cancelButton);
-        grid.addColumn(2, courseList, COURSENAMELABEL);
+        grid.addColumn(2, electiveList, ELECTIVENAMELABEL);
         return grid;
     }
 
     private static void createListView(String codeName) {
         data = FXCollections.observableArrayList();
-        MajorSaver.loadCoursesForMajor(codeName);
-        courseList.setItems(data);
-        courseList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-            COURSENAMELABEL.setText(new_val);
+        MajorSaver.loadElectivesForMajor(codeName);
+        electiveList.setItems(data);
+        electiveList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+            ELECTIVENAMELABEL.setText(new_val);
         });
     }
 
-    public static void addCourseToData(String name) {
+    public static void addElectiveToData(String name) {
         data.add(name);
     }
     
     public static void refreshListView() {
         createListView(codeName);
+    }
+
+    private static void createListOfAllElectives() {
+        dataOfAllElectives = FXCollections.observableArrayList();
+        MajorSaver.loadAllElectives();
+        allElectives.setItems(data);
+    }
+    
+    public static void addElectiveToListOfAllData(String name) {
+        
     }
 }
