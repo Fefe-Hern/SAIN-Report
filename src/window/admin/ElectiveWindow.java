@@ -1,4 +1,4 @@
-package window;
+package window.admin;
 
 import controller.AccountSaver;
 import controller.ElectiveSaver;
@@ -64,7 +64,7 @@ public class ElectiveWindow {
         electivePropertiesButton = new Button("View Properties");
         electivePropertiesButton.setOnAction((ActionEvent event) -> {
             Stage stage = new Stage();
-            stage.setScene(EditElectiveWindow.createScene(electiveList.getSelectionModel().getSelectedItem()));
+            stage.setScene(ElectivePropertiesWindow.createScene(electiveList.getSelectionModel().getSelectedItem()));
             stage.show();
         });
         

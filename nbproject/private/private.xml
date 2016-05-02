@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/controller/ElectiveSaver.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/controller/AccountSaver.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/dataModel/Admin.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/dataModel/Course.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/ElectivePropertiesWindow.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/AddClassToElectiveWindow.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/dataModel/Classes.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/AddElectiveWindow.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/controller/CourseSaver.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -31,6 +31,7 @@ public class CourseSaver {
             try {
                 if(file.createNewFile()) {
                     System.out.println("Courses file created.");
+                    save();
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

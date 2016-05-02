@@ -20,6 +20,14 @@ public class Elective implements Serializable {
         coursesInElective = new ArrayList<>();
     }
 
+    public Elective(String name, String codeName, int creditsRequired, int totalCreditsOfClasses, ArrayList<Course> coursesInElective) {
+        this.name = name;
+        this.codeName = codeName;
+        this.creditsRequired = creditsRequired;
+        this.totalCreditsOfClasses = totalCreditsOfClasses;
+        this.coursesInElective = coursesInElective;
+    }
+
     public ArrayList<Course> getCoursesInElective() {
         ArrayList<Course> copyOfElectivesNeeded = new ArrayList<>();
         for (int i = 0; i < coursesInElective.size(); i++) {
@@ -27,12 +35,20 @@ public class Elective implements Serializable {
         }
         return copyOfElectivesNeeded;
     }
-    public boolean addCourseToMajor(Course courseToAdd) {
+    public boolean addCourseToElective(Course courseToAdd) {
         return coursesInElective.add(courseToAdd);
     }
     
-    public boolean removeElectiveFromMajor(Course courseToRemove) {
+    public boolean removeCourseFromElective(Course courseToRemove) {
         return coursesInElective.remove(courseToRemove);
+    }
+    
+    public Elective deepCopy() {
+        ArrayList<Course> coursesInElectiveDeepCopy = new ArrayList();
+        for (Course course : coursesInElective) {
+            coursesInElectiveDeepCopy.add(course);
+        }
+        return new Elective(name, codeName, creditsRequired, totalCreditsOfClasses, coursesInElectiveDeepCopy);
     }
     
     public String getName() {

@@ -1,4 +1,4 @@
-package window;
+package window.admin;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -11,6 +11,7 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import window.LoginScreen;
 
 /**
  *
@@ -47,8 +48,8 @@ public class AdminSain extends Application {
         pane.setPrefColumns(2);
         pane.getChildren().add(createAccountButton);
         pane.getChildren().add(editMajorsButton);
-        pane.getChildren().add(logoutButton);
         pane.getChildren().add(editElectivesButton);
+        pane.getChildren().add(logoutButton);
         
     }
     

@@ -1,4 +1,4 @@
-package window;
+package window.admin;
 
 import controller.AccountSaver;
 import controller.ElectiveSaver;
@@ -29,7 +29,7 @@ import javafx.stage.Stage;
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class EditElectiveWindow {
+public class ElectivePropertiesWindow {
    static ListView<String> courseList = new ListView<>();
    static ObservableList<String> data;
    static final Label COURSENAMELABEL = new Label();
@@ -53,7 +53,7 @@ public class EditElectiveWindow {
         StackPane root = new StackPane();
         root.getChildren().add(grid);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 700, 250);
         return scene;
     }
 

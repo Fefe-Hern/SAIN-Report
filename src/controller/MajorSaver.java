@@ -21,8 +21,10 @@ import java.util.regex.Pattern;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import window.EditMajorWindow;
-import window.MajorWindow;
+import jdk.management.resource.internal.TotalResourceContext;
+import window.admin.AddElectiveToMajorWindow;
+import window.admin.MajorPropertiesWindow;
+import window.admin.MajorWindow;
 
 /**
  *
@@ -48,6 +50,7 @@ public class MajorSaver {
                 if(file.createNewFile()) {
                     System.out.println("Major file created.");
                     initializeMajorMap();
+                    save();
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -135,15 +138,24 @@ public class MajorSaver {
         });
     }
 
-    public static void loadElectivesForMajor(String codeName) {
+    public static void loadElectivesForMajor(String codeName, String controller) {
         ArrayList<Elective> electiveList = majorMap.get(codeName).getElectivesNeeded();
-        for (int i = 0; i < electiveList.size(); i++) {
-            EditMajorWindow.addElectiveToData(electiveList.get(i).getCodeName());
+        if (controller.equals("Major Properties Window")) {
+            for (int i = 0; i < electiveList.size(); i++) {
+                MajorPropertiesWindow.addElectiveToData(electiveList.get(i).getCodeName());
+            }
         }
+        else if (controller.equals("Add Elective To Major Window")) {
+            for (int i = 0; i < electiveList.size(); i++) {
+                MajorPropertiesWindow.addElectiveToData(electiveList.get(i).getCodeName());
+            }
+        }
+
     }
     public static void loadAllElectives() {
-        for (int i = 0; i < ElectiveSaver.passElectiveMapSize(); i++) {
-            //EditMajorWindow.addElectiveToListOfAllData(ElectiveSaver.);
+        ArrayList<Elective> electiveList = ElectiveSaver.obtainAllElectives();
+        for (int i = 0; i < electiveList.size(); i++) {
+            AddElectiveToMajorWindow.addElectiveToListOfAllData(electiveList.get(i).getCodeName());
         }
     }
 
@@ -161,6 +173,18 @@ public class MajorSaver {
     
     public static Major passMajorToView(String codeName) {
         return majorMap.get(codeName);
+    }
+
+    public static void addElectiveToMajor(String majorCodeName, String selectedItem, int reqCredits) {
+        Elective elective = ElectiveSaver.passElectiveToView(selectedItem);
+        elective.setCreditsRequired(reqCredits);
+        majorMap.get(majorCodeName).addElectiveToMajor(elective);
+        majorMap.get(majorCodeName).setTotalCredits(majorMap.get(majorCodeName).getTotalCredits() + reqCredits);
+    }
+    
+    public static void removeElectiveFromMajor(String majorCodeName, String selectedItem) {
+        Elective elective = ElectiveSaver.passElectiveToView(selectedItem);
+        majorMap.get(majorCodeName).removeElectiveFromMajor(elective);
     }
 
 }

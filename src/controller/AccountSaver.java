@@ -38,6 +38,7 @@ public class AccountSaver {
                 if(file.createNewFile()) {
                     System.out.println("Accounts file created.");
                     accountMap = initializeAccountMap();
+                    save();
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

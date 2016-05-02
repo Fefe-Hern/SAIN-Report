@@ -1,6 +1,7 @@
-package window;
+package window.admin;
 
 import controller.AccountSaver;
+import controller.ElectiveSaver;
 import controller.MajorSaver;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -23,13 +24,11 @@ import javafx.stage.Stage;
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class AddMajorWindow {
+public class AddElectiveWindow {
    static Label nameLabel;
    static Label codeNameLabel;
-   static Label gpaReqLabel;
    static TextField nameField;
    static TextField codeNameField;
-   static TextField gpaField;
    static Button createButton;
    static Button cancelButton;
     
@@ -45,16 +44,14 @@ public class AddMajorWindow {
     }
 
     private static void addFields() {
-        nameLabel = new Label("Major Name: ");
+        nameLabel = new Label("Elective Name: ");
         codeNameLabel = new Label("Code Name (Key Field): ");
-        gpaReqLabel = new Label("GPA Requirement: ");
         nameField = new TextField();
         codeNameField = new TextField();
-        gpaField = new TextField();
         
-        createButton = new Button("Create Major");
+        createButton = new Button("Create Elective");
         createButton.setOnAction((ActionEvent event) -> {
-            if(MajorSaver.addMajor(nameField.getText(), codeNameField.getText(), gpaField.getText())) {
+            if(ElectiveSaver.addElective(nameField.getText(), codeNameField.getText())) {
                 Stage stage = (Stage) createButton.getScene().getWindow();
                 stage.close();
             }
@@ -70,8 +67,8 @@ public class AddMajorWindow {
     
     private static GridPane createLayout() {
         GridPane grid = new GridPane();
-        grid.addColumn(0, nameLabel, codeNameLabel, gpaReqLabel, createButton);
-        grid.addColumn(1, nameField, codeNameField, gpaField, cancelButton);
+        grid.addColumn(0, nameLabel, codeNameLabel, createButton);
+        grid.addColumn(1, nameField, codeNameField, cancelButton);
         return grid;
     }
 }

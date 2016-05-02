@@ -34,7 +34,16 @@ public class Major implements Serializable {
     }
     
     public boolean removeElectiveFromMajor(Elective electiveToRemove) {
-        return electivesNeeded.remove(electiveToRemove);
+        setTotalCredits(getTotalCredits() - electiveToRemove.getCreditsRequired());
+        for (Elective elective : electivesNeeded) {
+            if (similar(elective.getName(), electiveToRemove.getName(),
+                    elective.getCodeName(), electiveToRemove.getCodeName())) {
+                setTotalCredits(totalCredits - elective.getCreditsRequired());
+                return electivesNeeded.remove(elective);
+            }
+        }
+        System.out.println("No elective deleted");
+        return false;
     }
 
     public String getCodeName() {
@@ -59,6 +68,10 @@ public class Major implements Serializable {
 
     public void setTotalCredits(int totalCredits) {
         this.totalCredits = totalCredits;
+    }
+
+    private boolean similar(String name, String nameToRemove, String codeName, String codeNameToRemove) {
+        return(name.equals(nameToRemove) && codeName.equals(codeNameToRemove));
     }
     
 }

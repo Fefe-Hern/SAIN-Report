@@ -1,7 +1,6 @@
-package window;
+package window.admin;
 
 import controller.AccountSaver;
-import controller.ElectiveSaver;
 import controller.MajorSaver;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -24,11 +23,13 @@ import javafx.stage.Stage;
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class AddElectiveWindow {
+public class AddMajorWindow {
    static Label nameLabel;
    static Label codeNameLabel;
+   static Label gpaReqLabel;
    static TextField nameField;
    static TextField codeNameField;
+   static TextField gpaField;
    static Button createButton;
    static Button cancelButton;
     
@@ -44,14 +45,16 @@ public class AddElectiveWindow {
     }
 
     private static void addFields() {
-        nameLabel = new Label("Elective Name: ");
+        nameLabel = new Label("Major Name: ");
         codeNameLabel = new Label("Code Name (Key Field): ");
+        gpaReqLabel = new Label("GPA Requirement: ");
         nameField = new TextField();
         codeNameField = new TextField();
+        gpaField = new TextField();
         
-        createButton = new Button("Create Elective");
+        createButton = new Button("Create Major");
         createButton.setOnAction((ActionEvent event) -> {
-            if(ElectiveSaver.addElective(nameField.getText(), codeNameField.getText())) {
+            if(MajorSaver.addMajor(nameField.getText(), codeNameField.getText(), gpaField.getText())) {
                 Stage stage = (Stage) createButton.getScene().getWindow();
                 stage.close();
             }
@@ -67,8 +70,8 @@ public class AddElectiveWindow {
     
     private static GridPane createLayout() {
         GridPane grid = new GridPane();
-        grid.addColumn(0, nameLabel, codeNameLabel, createButton);
-        grid.addColumn(1, nameField, codeNameField, cancelButton);
+        grid.addColumn(0, nameLabel, codeNameLabel, gpaReqLabel, createButton);
+        grid.addColumn(1, nameField, codeNameField, gpaField, cancelButton);
         return grid;
     }
 }

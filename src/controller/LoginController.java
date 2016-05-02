@@ -5,7 +5,7 @@ import dataModel.Admin;
 import dataModel.Instructor;
 import dataModel.Student;
 import javafx.stage.Stage;
-import window.AdminSain;
+import window.admin.AdminSain;
 import window.InstructorSain;
 import window.StudentSain;
 

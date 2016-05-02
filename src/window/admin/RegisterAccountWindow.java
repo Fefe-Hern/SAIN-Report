@@ -1,4 +1,4 @@
-package window;
+package window.admin;
 
 import controller.AccountSaver;
 import javafx.application.Application;

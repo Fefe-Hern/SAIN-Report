@@ -1,7 +1,8 @@
-package window;
+package window.admin;
 
 import controller.AccountSaver;
 import controller.MajorSaver;
+import controller.Serializer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -63,7 +64,7 @@ public class MajorWindow {
         majorPropertiesButton = new Button("View Properties");
         majorPropertiesButton.setOnAction((ActionEvent event) -> {
             Stage stage = new Stage();
-            stage.setScene(EditMajorWindow.createScene(majorList.getSelectionModel().getSelectedItem()));
+            stage.setScene(MajorPropertiesWindow.createScene(majorList.getSelectionModel().getSelectedItem()));
             stage.show();
         });
         
@@ -72,8 +73,9 @@ public class MajorWindow {
             MajorSaver.deleteMajor(majorList.getSelectionModel().getSelectedItem());
         });
         
-        cancelButton = new Button("Cancel");
+        cancelButton = new Button("Save and Quit");
         cancelButton.setOnAction((ActionEvent event) -> {
+            Serializer.saveFiles();
             Stage stage = (Stage) cancelButton.getScene().getWindow();
             stage.close();
         });

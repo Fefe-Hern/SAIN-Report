@@ -10,13 +10,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import window.EditElectiveWindow;
-import window.ElectiveWindow;
+import window.admin.ElectivePropertiesWindow;
+import window.admin.ElectiveWindow;
 /**
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
@@ -41,6 +42,7 @@ public class ElectiveSaver {
                 if(file.createNewFile()) {
                     System.out.println("Electives file created.");
                     initializeElectiveMap();
+                    save();
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -62,7 +64,7 @@ public class ElectiveSaver {
     
     private static void initializeElectiveMap() {
         electiveMap = new TreeMap<>();
-        electiveMap.put("CST", new Elective("CST", "Computer Science"));
+        electiveMap.put("CST", new Elective("Computer Science", "CST"));
     }
     
     public static void loadElectivesToData() {
@@ -74,7 +76,7 @@ public class ElectiveSaver {
     public static void loadClassesForElective(String codeName) {
         ArrayList<Course> electiveList = electiveMap.get(codeName).getCoursesInElective();
         for (int i = 0; i < electiveList.size(); i++) {
-            EditElectiveWindow.addCourseToData(electiveList.get(i).getCodeName());
+            ElectivePropertiesWindow.addCourseToData(electiveList.get(i).getCodeName());
         }
     }
     
@@ -123,13 +125,22 @@ public class ElectiveSaver {
     }
 
     public static Elective passElectiveToView(String codeName) {
-        return electiveMap.get(codeName);
+        return electiveMap.get(codeName).deepCopy();
     }
     
     public static int passElectiveMapSize() {
         return electiveMap.size();
     }
-    /*public static Elective getElectiveMapIteration(int i) {
+
+    static ArrayList<Elective> obtainAllElectives() {
+        ArrayList<Elective> electiveList = new ArrayList<>();
+        for (Map.Entry<String, Elective> entry : electiveMap.entrySet()) {
+            electiveList.add(entry.getValue());
+        }
+        return electiveList;
+    }
+
+    public static boolean addClass(String name, String codeName, String creditsReq, String instructorName) {
         
-    }*/
+    }
 }
