@@ -1,6 +1,7 @@
 package dataModel;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  *
@@ -13,7 +14,7 @@ public class Instructor implements Accounts {
     private String lastName;
     private String id;
     
-    private ArrayList<Course> classesTaught;
+    private ArrayList<Classes> classesTaught;
 
     public Instructor(String userName, String password, String firstName, String lastName, String id) {
         this.userName = userName;
@@ -21,6 +22,7 @@ public class Instructor implements Accounts {
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
+        classesTaught = new ArrayList<>();
     }
 
     @Override
@@ -62,4 +64,13 @@ public class Instructor implements Accounts {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public void addClassToTaught(Classes classToAdd) {
+        classesTaught.add(classToAdd);
+    }
+
+    public ArrayList<Classes> getClassesTaught() {
+        return classesTaught;
+    }
+
 }

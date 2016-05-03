@@ -11,7 +11,7 @@ public class Elective implements Serializable {
     private String name;
     private String codeName;
     private int creditsRequired;
-    private int totalCreditsOfClasses;
+    private int totalCreditsOfCourses;
     private ArrayList<Course> coursesInElective;
 
     public Elective(String name, String codeName) {
@@ -24,7 +24,7 @@ public class Elective implements Serializable {
         this.name = name;
         this.codeName = codeName;
         this.creditsRequired = creditsRequired;
-        this.totalCreditsOfClasses = totalCreditsOfClasses;
+        this.totalCreditsOfCourses = totalCreditsOfClasses;
         this.coursesInElective = coursesInElective;
     }
 
@@ -36,10 +36,12 @@ public class Elective implements Serializable {
         return copyOfElectivesNeeded;
     }
     public boolean addCourseToElective(Course courseToAdd) {
+        setTotalCreditsOfCourses(totalCreditsOfCourses + courseToAdd.getCreditsGiven());
         return coursesInElective.add(courseToAdd);
     }
     
     public boolean removeCourseFromElective(Course courseToRemove) {
+        setTotalCreditsOfCourses(totalCreditsOfCourses - courseToRemove.getCreditsGiven());
         return coursesInElective.remove(courseToRemove);
     }
     
@@ -48,7 +50,7 @@ public class Elective implements Serializable {
         for (Course course : coursesInElective) {
             coursesInElectiveDeepCopy.add(course);
         }
-        return new Elective(name, codeName, creditsRequired, totalCreditsOfClasses, coursesInElectiveDeepCopy);
+        return new Elective(name, codeName, creditsRequired, totalCreditsOfCourses, coursesInElectiveDeepCopy);
     }
     
     public String getName() {
@@ -67,12 +69,12 @@ public class Elective implements Serializable {
         this.creditsRequired = creditsRequired;
     }
 
-    public int getTotalCreditsOfClasses() {
-        return totalCreditsOfClasses;
+    public int getTotalCreditsOfCourses() {
+        return totalCreditsOfCourses;
     }
 
-    public void setTotalCreditsOfClasses(int totalCreditsOfClasses) {
-        this.totalCreditsOfClasses = totalCreditsOfClasses;
+    public void setTotalCreditsOfCourses(int totalCreditsOfCourses) {
+        this.totalCreditsOfCourses = totalCreditsOfCourses;
     }
     
     

@@ -7,12 +7,15 @@ import java.io.ObjectInputStream;
 import java.util.HashMap;
 import dataModel.Accounts;
 import dataModel.Admin;
+import dataModel.Classes;
 import dataModel.Instructor;
 import dataModel.Student;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import window.instructor.ViewClassesTaughtWindow;
 
 /**
  *
@@ -108,5 +111,30 @@ public class AccountSaver {
         alert.showAndWait();
         
         return false;
+    }
+
+    public static boolean searchForInstructor(String instructorId) {
+        Accounts member = accountMap.get(instructorId);
+        try {
+            if(member != null && member instanceof Instructor) {
+                return true;
+            }
+        } catch(Exception e) {
+            System.out.println("Error found whilst looking for instructor");
+        }
+        return false;
+    }
+    
+    public static Instructor passInstructor(String instructorId) {
+        Accounts member = accountMap.get(instructorId);
+        return (Instructor) member;
+    }
+
+    public static void loadClassesForInstructor(String instructorUserName) {
+        Instructor instructor = (Instructor) accountMap.get(instructorUserName);
+        ArrayList<Classes> classList = instructor.getClassesTaught();
+        for (int i = 0; i < classList.size(); i++) {
+            ViewClassesTaughtWindow.addClassToData(classList.get(i).getCRNAndName());
+        }
     }
 }

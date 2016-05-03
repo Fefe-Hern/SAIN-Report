@@ -5,7 +5,7 @@ import dataModel.Admin;
 import dataModel.Instructor;
 import dataModel.Student;
 import javafx.stage.Stage;
-import window.admin.AdminSain;
+import window.AdminSain;
 import window.InstructorSain;
 import window.StudentSain;
 
@@ -39,6 +39,10 @@ public class LoginController {
     public static void logout() {
         Serializer.saveFiles();
         activeAccount = null;
+    }
+    
+    public static String passActiveAccountUserName() {
+        return activeAccount.getUserName();
     }
 
     public static void openSainScreen(Stage primaryStage) {

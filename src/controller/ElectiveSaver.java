@@ -16,6 +16,7 @@ import java.util.TreeMap;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import window.admin.AddCourseToElectiveWindow;
 import window.admin.ElectivePropertiesWindow;
 import window.admin.ElectiveWindow;
 /**
@@ -73,10 +74,10 @@ public class ElectiveSaver {
         });
     }
     
-    public static void loadClassesForElective(String codeName) {
-        ArrayList<Course> electiveList = electiveMap.get(codeName).getCoursesInElective();
-        for (int i = 0; i < electiveList.size(); i++) {
-            ElectivePropertiesWindow.addCourseToData(electiveList.get(i).getCodeName());
+    public static void loadCoursesForElective(String codeName) {
+        ArrayList<Course> courseList = electiveMap.get(codeName).getCoursesInElective();
+        for (int i = 0; i < courseList.size(); i++) {
+            ElectivePropertiesWindow.addCourseToData(courseList.get(i).getCodeName());
         }
     }
     
@@ -140,7 +141,22 @@ public class ElectiveSaver {
         return electiveList;
     }
 
-    public static boolean addClass(String name, String codeName, String creditsReq, String instructorName) {
-        
+    public static boolean addCourse(String courseCodeName, String creditsReq, String electiveName) {
+        Course course = CourseSaver.passCourseToView(courseCodeName);
+        course.setCreditsGiven(Integer.parseInt(creditsReq));
+        try {
+            electiveMap.get(electiveName).addCourseToElective(course);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    
+    public static void loadAllCourses() {
+        ArrayList<Course> courseList = CourseSaver.obtainAllCourses();
+        for (int i = 0; i < courseList.size(); i++) {
+            AddCourseToElectiveWindow.addCourseToListOfAllData(courseList.get(i).getCodeName());
+        }
     }
 }
