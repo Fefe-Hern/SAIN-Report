@@ -1,7 +1,7 @@
-package window.admin;
+package window.student;
 
+import window.admin.*;
 import controller.AccountSaver;
-import controller.ElectiveSaver;
 import controller.MajorSaver;
 import controller.Serializer;
 import javafx.application.Application;
@@ -31,22 +31,22 @@ import javafx.stage.Stage;
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class ElectiveWindow {
-   static ListView<String> electiveList = new ListView<>();
+public class RegisterMajorWindow {
+   static ListView<String> majorList = new ListView<>();
    static ObservableList<String> data;
-   static Button addElectiveButton;
-   static Button deleteElectiveButton;
-   static Button electivePropertiesButton;
+   static Button registerMajorButton;
+   static Button whatIfAnalysisButton;
    static Button cancelButton;
-   static final Label ELECTIVENAMELABEL = new Label();
+   static final Label MAJORNAMELABEL = new Label();
+   static String accountUserName;
     
-    public static Scene createScene() {
+    public static Scene createScene(String studentUserName) {
+        accountUserName = studentUserName;
         createListView();
         addFields();
         VBox box = new VBox();
-        box.getChildren().addAll(electiveList, ELECTIVENAMELABEL, addElectiveButton, electivePropertiesButton,
-                deleteElectiveButton, cancelButton);
-        VBox.setVgrow(electiveList, Priority.ALWAYS);
+        box.getChildren().addAll(majorList, MAJORNAMELABEL, registerMajorButton, whatIfAnalysisButton, cancelButton);
+        VBox.setVgrow(majorList, Priority.ALWAYS);
         StackPane root = new StackPane();
         root.getChildren().add(box);
         
@@ -55,26 +55,20 @@ public class ElectiveWindow {
     }
 
     private static void addFields() {
-        addElectiveButton = new Button("Add Elective");
-        addElectiveButton.setOnAction((ActionEvent event) -> {
-            Stage stage = new Stage();
-            stage.setScene(AddElectiveWindow.createScene());
-            stage.show();
+        registerMajorButton = new Button("Register Major");
+        registerMajorButton.setOnAction((ActionEvent event) -> {
+            AccountSaver.setMajorForStudent(accountUserName, majorList.getSelectionModel().getSelectedItem());
+            Serializer.saveFiles();
+            Stage stage = (Stage) registerMajorButton.getScene().getWindow();
+            stage.close();
         });
         
-        electivePropertiesButton = new Button("View Properties");
-        electivePropertiesButton.setOnAction((ActionEvent event) -> {
-            Stage stage = new Stage();
-            stage.setScene(ElectivePropertiesWindow.createScene(electiveList.getSelectionModel().getSelectedItem()));
-            stage.show();
+        whatIfAnalysisButton = new Button("What-If Analysis");
+        whatIfAnalysisButton.setOnAction((ActionEvent event) -> {
+            //Generate Sain Report for a duplicate of Student with selected Major
         });
         
-        deleteElectiveButton = new Button("Delete Selected Elective");
-        deleteElectiveButton.setOnAction((ActionEvent event) -> {
-            ElectiveSaver.deleteElective(electiveList.getSelectionModel().getSelectedItem());
-        });
-        
-        cancelButton = new Button("Save & Quit");
+        cancelButton = new Button("Save and Quit");
         cancelButton.setOnAction((ActionEvent event) -> {
             Serializer.saveFiles();
             Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -84,10 +78,10 @@ public class ElectiveWindow {
     
     private static void createListView() {
         data = FXCollections.observableArrayList();
-        ElectiveSaver.loadElectivesToData();
-        electiveList.setItems(data);
-        electiveList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-            ELECTIVENAMELABEL.setText(new_val);
+        MajorSaver.loadMajorsToData("RegisterMajorWindow");
+        majorList.setItems(data);
+        majorList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+            MAJORNAMELABEL.setText(new_val);
         });
     }
 
@@ -95,7 +89,7 @@ public class ElectiveWindow {
         createListView();
     }
 
-    public static void addElectiveToData(String name) {
+    public static void addMajorToData(String name) {
         data.add(name);
     }
 }

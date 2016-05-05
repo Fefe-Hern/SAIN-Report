@@ -9,14 +9,12 @@ public class Admin implements Accounts {
     private String password;
     private String firstName;
     private String lastName;
-    private String id;
 
-    public Admin(String userName, String password, String firstName, String lastName, String id) {
+    public Admin(String userName, String password, String firstName, String lastName) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.id = id;
     }
 
     @Override
@@ -40,11 +38,6 @@ public class Admin implements Accounts {
     }
 
     @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
     public void setPassword(String password) {
         this.password = password;
     }
@@ -57,6 +50,11 @@ public class Admin implements Accounts {
     @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    
+    @Override
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
     
     

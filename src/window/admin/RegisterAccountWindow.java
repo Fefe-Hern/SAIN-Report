@@ -27,12 +27,10 @@ public class RegisterAccountWindow {
    static Label lastNameLabel;
    static Label userNameLabel;
    static Label passwordLabel;
-   static Label idLabel;
    static TextField firstNameField;
    static TextField lastNameField;
    static TextField userNameField;
    static TextField passwordField;
-   static TextField idField;
    static RadioButton studentButton;
    static RadioButton instructorButton;
    static RadioButton adminButton;
@@ -56,12 +54,10 @@ public class RegisterAccountWindow {
         lastNameLabel = new Label("Last Name: ");
         userNameLabel = new Label("User Name: ");
         passwordLabel = new Label("Password: ");
-        idLabel = new Label("ID: ");
         firstNameField = new TextField();
         lastNameField = new TextField();
         userNameField = new TextField();
         passwordField = new TextField();
-        idField = new TextField();
         
         createRadioButtons();
         
@@ -69,7 +65,7 @@ public class RegisterAccountWindow {
         createButton.setOnAction((ActionEvent event) -> {
             
             if(AccountSaver.saveAccount(firstNameField.getText(), lastNameField.getText(),
-                    userNameField.getText(), passwordField.getText(), idField.getText(),
+                    userNameField.getText(), passwordField.getText(),
                     (String) group.getSelectedToggle().getUserData())) {
                 Stage stage = (Stage) createButton.getScene().getWindow();
                 stage.close();
@@ -86,8 +82,8 @@ public class RegisterAccountWindow {
     
     private static GridPane createLayout() {
         GridPane grid = new GridPane();
-        grid.addColumn(0, firstNameLabel, lastNameLabel, userNameLabel, passwordLabel, idLabel, studentButton, instructorButton, adminButton, createButton);
-        grid.addColumn(1, firstNameField, lastNameField, userNameField, passwordField, idField, cancelButton);
+        grid.addColumn(0, firstNameLabel, lastNameLabel, userNameLabel, passwordLabel, studentButton, instructorButton, adminButton, createButton);
+        grid.addColumn(1, firstNameField, lastNameField, userNameField, passwordField, cancelButton);
         return grid;
     }
 

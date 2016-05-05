@@ -4,6 +4,7 @@ import controller.AccountSaver;
 import controller.CourseSaver;
 import controller.ElectiveSaver;
 import controller.MajorSaver;
+import controller.Serializer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -67,8 +68,9 @@ public class CourseWindow {
             stage.show();
         });
         
-        cancelButton = new Button("Cancel");
+        cancelButton = new Button("Save & Quit");
         cancelButton.setOnAction((ActionEvent event) -> {
+            Serializer.saveFiles();
             Stage stage = (Stage) cancelButton.getScene().getWindow();
             stage.close();
         });

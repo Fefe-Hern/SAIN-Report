@@ -123,9 +123,26 @@ public class CourseSaver {
         return false;
     }
 
-    public static void createClassForCourse(String courseCodeName, String crn, String instructorId) {
+    public static boolean createClassForCourse(String courseCodeName, String crn, String instructorId) {
+        if(crn.length() != 5) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("CRN Error");
+            alert.setHeaderText("Error:");
+            alert.setContentText("The CRN " + crn + " must be 5 characters exact.");
+            alert.showAndWait();
+            return false;
+        }
+        if (ClassSaver.crnTaken(crn)) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Taken CRN Error");
+            alert.setHeaderText("Error:");
+            alert.setContentText("The CRN " + crn + " has been taken.");
+            alert.showAndWait();
+            return false;
+        }
         Instructor instructor = AccountSaver.passInstructor(instructorId);
         courseMap.get(courseCodeName).addClass(instructor, crn);
         CoursePropertiesWindow.refreshView();
+        return true;
     }
 }

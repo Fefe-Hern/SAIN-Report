@@ -12,16 +12,14 @@ public class Instructor implements Accounts {
     private String password;
     private String firstName;
     private String lastName;
-    private String id;
     
     private ArrayList<Classes> classesTaught;
 
-    public Instructor(String userName, String password, String firstName, String lastName, String id) {
+    public Instructor(String userName, String password, String firstName, String lastName) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.id = id;
         classesTaught = new ArrayList<>();
     }
 
@@ -46,10 +44,10 @@ public class Instructor implements Accounts {
     }
 
     @Override
-    public String getId() {
-        return id;
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
-
+    
     @Override
     public void setPassword(String password) {
         this.password = password;

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import dataModel.Accounts;
 import dataModel.Admin;
 import dataModel.Classes;
+import dataModel.Course;
 import dataModel.Instructor;
 import dataModel.Student;
 import java.io.FileOutputStream;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import window.instructor.ViewClassesTaughtWindow;
+import window.sainReport.SainReportWindow;
 
 /**
  *
@@ -63,9 +65,9 @@ public class AccountSaver {
 
     private static HashMap<String, Accounts> initializeAccountMap() {
         HashMap<String, Accounts> map = new HashMap<>();
-        map.put("hernf07", new Admin("hernf07", "test", "Fernando", "Hernandez", "00268"));
-        map.put("hernf08", new Instructor("hernf08", "test", "Fefe", "Hern", "0202FE"));
-        map.put("hernf09", new Student("hernf09", "test", "Fefef", "Hernh", "0202EE"));
+        map.put("hernf07", new Admin("hernf07", "test", "Fernando", "Hernandez"));
+        map.put("hernf08", new Instructor("hernf08", "test", "Fefe", "Hern"));
+        map.put("hernf09", new Student("hernf09", "test", "Fefef", "Hernh"));
         return map;
     }
     
@@ -93,15 +95,15 @@ public class AccountSaver {
     }
 
     public static boolean saveAccount(String firstName, String lastName, String userName,
-            String password, String id, String type) {
-        if (!firstName.isEmpty() && !lastName.isEmpty() && !userName.isEmpty() && !password.isEmpty() && !id.isEmpty()) {
+            String password, String type) {
+        if (!firstName.isEmpty() && !lastName.isEmpty() && !userName.isEmpty() && !password.isEmpty()) {
             switch (type) {
                 case "Student":
-                    return addAccount(new Student(userName, password, firstName, lastName, id));
+                    return addAccount(new Student(userName, password, firstName, lastName));
                 case "Instructor":
-                    return addAccount(new Instructor(userName, password, firstName, lastName, id));
+                    return addAccount(new Instructor(userName, password, firstName, lastName));
                 case "Admin":
-                    return addAccount(new Admin(userName, password, firstName, lastName, id));
+                    return addAccount(new Admin(userName, password, firstName, lastName));
             }
         }
         Alert alert = new Alert(AlertType.ERROR);
@@ -129,12 +131,62 @@ public class AccountSaver {
         Accounts member = accountMap.get(instructorId);
         return (Instructor) member;
     }
+    
+    public static Student passStudent(String studentUserName) {
+        Accounts member = accountMap.get(studentUserName);
+        return (Student) member;
+    }
 
     public static void loadClassesForInstructor(String instructorUserName) {
         Instructor instructor = (Instructor) accountMap.get(instructorUserName);
         ArrayList<Classes> classList = instructor.getClassesTaught();
         for (int i = 0; i < classList.size(); i++) {
             ViewClassesTaughtWindow.addClassToData(classList.get(i).getCRNAndName());
+        }
+    }
+
+    public static void setMajorForStudent(String accountUserName, String selectedMajor) {
+        Student student = (Student) accountMap.get(accountUserName);
+        student.setMajor(MajorSaver.getMajor(selectedMajor));
+    }
+
+    public static boolean addClassToStudent(String userAccountName, String crn) {
+        if(ClassSaver.passClassToView(crn) == null) {
+            return false;
+        }
+        Classes classToAdd = ClassSaver.passClassToView(crn);
+        Student studentAccount = AccountSaver.passStudent(userAccountName);
+            Alert alert = new Alert(AlertType.ERROR);
+        if (classToAdd == null) {
+            alert.setTitle("No CRN Found");
+            alert.setHeaderText("Error:");
+            alert.setContentText("CRN is not available.");
+            alert.showAndWait();
+            return false;
+        }
+        if(studentAccount.addClassToCurrentClasses(classToAdd)) {
+            ClassSaver.addStudentToClass(studentAccount, crn);
+            return true;
+        } else {
+            alert.setTitle("Class already taken");
+            alert.setHeaderText("Error:");
+            alert.setContentText("You are already taking this class!");
+            alert.showAndWait();
+            return false;
+        }
+    }
+
+    public static void loadClassesTaken(String userAccountName) {
+        ArrayList<Classes> classesTaken = passStudent(userAccountName).getClassesTaken();
+        for (Classes classes : classesTaken) {
+            SainReportWindow.addClassToClassesTaken(classes.getCodeAndGPA(userAccountName));
+        }
+    }
+
+    public static void loadClassesCurrentlyTaking(String userAccountName) {
+        ArrayList<Classes> classesCurrentlyTaking = passStudent(userAccountName).getCurrentClasses();
+        for (Classes classes : classesCurrentlyTaking) {
+            SainReportWindow.addClassToCurrentlyTaking(classes.getNameAndCode());
         }
     }
 }

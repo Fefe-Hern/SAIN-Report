@@ -11,20 +11,21 @@ public class Student implements Accounts {
     private String password;
     private String firstName;
     private String lastName;
-    private String id;
     
     private Major major;
     private double gpa;
-    private ArrayList<Course> classesCompleted;
-    private ArrayList<Course> currentClasses;
-    private ArrayList<Course> classesTaken;
+    private ArrayList<Classes> classesCompleted;
+    private ArrayList<Classes> currentClasses;
+    private ArrayList<Classes> classesTaken;
 
-    public Student(String userName, String password, String firstName, String lastName, String id) {
+    public Student(String userName, String password, String firstName, String lastName) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.id = id;
+        classesCompleted = new ArrayList<>();
+        currentClasses = new ArrayList<>();
+        classesTaken = new ArrayList<>();
     }
 
     @Override
@@ -46,10 +47,10 @@ public class Student implements Accounts {
     public String getLastName() {
         return lastName;
     }
-
+    
     @Override
-    public String getId() {
-        return id;
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     public Major getMajor() {
@@ -60,15 +61,15 @@ public class Student implements Accounts {
         return gpa;
     }
 
-    public ArrayList<Course> getClassesCompleted() {
+    public ArrayList<Classes> getClassesCompleted() {
         return classesCompleted;
     }
 
-    public ArrayList<Course> getCurrentClasses() {
+    public ArrayList<Classes> getCurrentClasses() {
         return currentClasses;
     }
 
-    public ArrayList<Course> getClassesTaken() {
+    public ArrayList<Classes> getClassesTaken() {
         return classesTaken;
     }
 
@@ -92,6 +93,15 @@ public class Student implements Accounts {
 
     public void setGpa(double gpa) {
         this.gpa = gpa;
+    }
+
+    public boolean addClassToCurrentClasses(Classes classToAdd) {
+        if(currentClasses.contains(classToAdd)) {
+            return false;
+        } else {
+            currentClasses.add(classToAdd);
+            return true;
+        }
     }
 
 }

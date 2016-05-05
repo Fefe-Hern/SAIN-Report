@@ -10,6 +10,7 @@ public class Serializer {
         MajorSaver.initialize();
         CourseSaver.initialize();
         ElectiveSaver.initialize();
+        ClassSaver.initialize();
     }
     
     public static void saveFiles() {
@@ -17,5 +18,6 @@ public class Serializer {
         MajorSaver.save();
         CourseSaver.save();
         ElectiveSaver.save();
+        ClassSaver.save();
     }
 }

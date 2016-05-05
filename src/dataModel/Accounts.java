@@ -9,9 +9,9 @@ public interface Accounts extends Serializable {
     String getUserName();
     String getPassword();
     void setPassword(String newPassword);
-    String getId();
     String getFirstName();
     void setFirstName(String newName);
     String getLastName();
     void setLastName(String newName);
+    String getFullName();
 }

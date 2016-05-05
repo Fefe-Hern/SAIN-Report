@@ -3,18 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/admin/AddCourseToElectiveWindow.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/controller/ElectiveSaver.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/admin/CourseWindow.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/dataModel/Course.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/admin/MajorWindow.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/controller/ClassSaver.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/student/RegisterMajorWindow.java</file>
             <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/controller/MajorSaver.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/admin/AdminSain.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/admin/MajorPropertiesWindow.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/dataModel/Classes.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/dataModel/Elective.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/admin/ElectivePropertiesWindow.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/admin/AddElectiveToMajorWindow.java</file>
-            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/controller/CourseSaver.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/StudentSain.java</file>
+            <file>file:/home/fefe/Documents/CST242/Github%20Repo/SAIN%20Report/src/window/instructor/ViewClassWindow.java</file>
         </group>
     </open-files>
 </project-private>

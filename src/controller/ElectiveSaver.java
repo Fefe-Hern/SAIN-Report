@@ -141,9 +141,8 @@ public class ElectiveSaver {
         return electiveList;
     }
 
-    public static boolean addCourse(String courseCodeName, String creditsReq, String electiveName) {
+    public static boolean addCourse(String courseCodeName, String electiveName) {
         Course course = CourseSaver.passCourseToView(courseCodeName);
-        course.setCreditsGiven(Integer.parseInt(creditsReq));
         try {
             electiveMap.get(electiveName).addCourseToElective(course);
             return true;
@@ -151,7 +150,6 @@ public class ElectiveSaver {
             return false;
         }
     }
-    
     
     public static void loadAllCourses() {
         ArrayList<Course> courseList = CourseSaver.obtainAllCourses();

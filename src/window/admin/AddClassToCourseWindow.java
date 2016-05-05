@@ -63,9 +63,10 @@ public class AddClassToCourseWindow {
             String crn = crnField.getText();
             if(!instructorUserName.isEmpty() && !crn.isEmpty()) {
                 if(AccountSaver.searchForInstructor(instructorUserName)) {
-                    CourseSaver.createClassForCourse(courseCodeName, crn, instructorUserName);
-                    Stage stage = (Stage) addClassToCourseButton.getScene().getWindow();
-                    stage.close();
+                    if (CourseSaver.createClassForCourse(courseCodeName, crn, instructorUserName)) {
+                        Stage stage = (Stage) addClassToCourseButton.getScene().getWindow();
+                        stage.close();
+                    }
                 }
             }
         });

@@ -83,7 +83,7 @@ public class MajorWindow {
     
     private static void createListView() {
         data = FXCollections.observableArrayList();
-        MajorSaver.loadMajorsToData();
+        MajorSaver.loadMajorsToData("MajorWindow");
         majorList.setItems(data);
         majorList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             MAJORNAMELABEL.setText(new_val);

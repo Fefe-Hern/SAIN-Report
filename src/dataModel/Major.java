@@ -73,5 +73,5 @@ public class Major implements Serializable {
     private boolean similar(String name, String nameToRemove, String codeName, String codeNameToRemove) {
         return(name.equals(nameToRemove) && codeName.equals(codeNameToRemove));
     }
-    
+
 }

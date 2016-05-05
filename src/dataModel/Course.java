@@ -1,5 +1,6 @@
 package dataModel;
 
+import controller.ClassSaver;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +64,7 @@ public class Course implements Serializable {
             Classes classToAdd = new Classes(getName(), getCodeName(), CRN, getCreditsGiven(), instructor);
             listOfClasses.put(CRN, classToAdd);
             instructor.addClassToTaught(classToAdd);
+            ClassSaver.saveClass(classToAdd);
             return true;
         }catch(Exception e) {
             return false;

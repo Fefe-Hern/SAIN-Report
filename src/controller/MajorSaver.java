@@ -25,6 +25,7 @@ import jdk.management.resource.internal.TotalResourceContext;
 import window.admin.AddElectiveToMajorWindow;
 import window.admin.MajorPropertiesWindow;
 import window.admin.MajorWindow;
+import window.student.RegisterMajorWindow;
 
 /**
  *
@@ -132,9 +133,10 @@ public class MajorSaver {
         return majorMap.size();
     }
 
-    public static void loadMajorsToData() {
+    public static void loadMajorsToData(String windowName) {
         majorMap.entrySet().stream().forEach((entry) -> {
-            MajorWindow.addMajorToData(entry.getKey());
+            if(windowName.equals("MajorWindow")) { MajorWindow.addMajorToData(entry.getKey()); }
+            else if(windowName.equals("RegisterMajorWindow")) { RegisterMajorWindow.addMajorToData(entry.getKey()); }
         });
     }
 
@@ -185,6 +187,10 @@ public class MajorSaver {
     public static void removeElectiveFromMajor(String majorCodeName, String selectedItem) {
         Elective elective = ElectiveSaver.passElectiveToView(selectedItem);
         majorMap.get(majorCodeName).removeElectiveFromMajor(elective);
+    }
+
+    static Major getMajor(String selectedMajor) {
+        return majorMap.get(selectedMajor);
     }
 
 }
