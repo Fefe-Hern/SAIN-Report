@@ -1,9 +1,9 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.CourseSaver;
-import controller.ElectiveSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.CourseController;
+import controller.ElectiveController;
+import controller.MajorController;
 import dataModel.Course;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -31,9 +31,7 @@ import javafx.stage.Stage;
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
 public class AddCourseToElectiveWindow {
-   static ListView<String> courseList = new ListView<>();
    static ListView<String> allCourses = new ListView<>(); // To move to electiveList
-   static ObservableList<String> data;
    static ObservableList<String> dataOfAllCourses;
    static final Label COURSENAMELABEL = new Label();
    static Button cancelButton;
@@ -41,9 +39,13 @@ public class AddCourseToElectiveWindow {
     
    private static String electiveCodeName;
    
+    /**
+     *
+     * @param codeName
+     * @return
+     */
     public static Scene createScene(String codeName) {
         electiveCodeName = codeName;
-        createListView(electiveCodeName);
         createListOfAllCourses();
         addFields();
         GridPane grid = createLayout();
@@ -55,10 +57,10 @@ public class AddCourseToElectiveWindow {
     }
 
     private static void addFields() {
-        addCourseToElectiveButton = new Button("Add New Course");
+        addCourseToElectiveButton = new Button("Add To Elective");
         addCourseToElectiveButton.setOnAction((ActionEvent event) -> {
             try {
-                ElectiveSaver.addCourse(allCourses.getSelectionModel().getSelectedItem(), electiveCodeName);
+                ElectiveController.addCourse(allCourses.getSelectionModel().getSelectedItem(), electiveCodeName);
             } catch (Exception e) {
                 System.out.println("Credits is not numerical.");
             }
@@ -76,30 +78,20 @@ public class AddCourseToElectiveWindow {
     
     private static GridPane createLayout() {
         GridPane grid = new GridPane();
-        grid.addColumn(0, courseList, COURSENAMELABEL, allCourses, addCourseToElectiveButton, cancelButton);
+        grid.addColumn(0, COURSENAMELABEL, allCourses, addCourseToElectiveButton, cancelButton);
         return grid;
-    }
-
-    private static void createListView(String codeName) {
-        data = FXCollections.observableArrayList();
-        ElectiveSaver.loadCoursesForElective(codeName);
-        courseList.setItems(data);
-    }
-
-    public static void addElectiveToData(String name) {
-        data.add(name);
-    }
-    
-    public static void refreshListView() {
-        createListView(electiveCodeName);
     }
 
     private static void createListOfAllCourses() {
         dataOfAllCourses = FXCollections.observableArrayList();
-        ElectiveSaver.loadAllCourses();
+        ElectiveController.loadAllCourses();
         allCourses.setItems(dataOfAllCourses);
     }
     
+    /**
+     *
+     * @param name
+     */
     public static void addCourseToListOfAllData(String name) {
         dataOfAllCourses.add(name);
     }

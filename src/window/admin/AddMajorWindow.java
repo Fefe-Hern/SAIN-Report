@@ -1,7 +1,7 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.MajorController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -33,6 +33,10 @@ public class AddMajorWindow {
    static Button createButton;
    static Button cancelButton;
     
+    /**
+     *
+     * @return
+     */
     public static Scene createScene() {
         addFields();
         GridPane grid = createLayout();
@@ -54,7 +58,7 @@ public class AddMajorWindow {
         
         createButton = new Button("Create Major");
         createButton.setOnAction((ActionEvent event) -> {
-            if(MajorSaver.addMajor(nameField.getText(), codeNameField.getText(), gpaField.getText())) {
+            if(MajorController.addMajor(nameField.getText(), codeNameField.getText(), gpaField.getText())) {
                 Stage stage = (Stage) createButton.getScene().getWindow();
                 stage.close();
             }

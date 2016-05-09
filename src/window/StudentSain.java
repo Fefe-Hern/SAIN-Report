@@ -1,6 +1,6 @@
 package window;
 
-import controller.AccountSaver;
+import controller.AccountController;
 import controller.LoginController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -35,7 +35,7 @@ public class StudentSain extends Application {
         StackPane root = new StackPane();
         root.getChildren().add(pane);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 150, 200);
         
         primaryStage.setTitle("Student Pane");
         primaryStage.setOnCloseRequest((WindowEvent event) -> {
@@ -75,7 +75,7 @@ public class StudentSain extends Application {
             Stage stage = new Stage();
             String studentName = LoginController.passActiveAccountUserName();
             stage.setScene(SainReportWindow.createScene(studentName,
-                    AccountSaver.passStudent(studentName).getMajor().getCodeName()));
+                    AccountController.passStudent(studentName).getMajor().getCodeName()));
             stage.show();
         });
         

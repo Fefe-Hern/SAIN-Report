@@ -1,8 +1,8 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.ElectiveSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.ElectiveController;
+import controller.MajorController;
 import dataModel.Course;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -44,6 +44,11 @@ public class ElectivePropertiesWindow {
     
    private static String codeName;
    
+    /**
+     *
+     * @param name
+     * @return
+     */
     public static Scene createScene(String name) {
         codeName = name;
         createListView(codeName);
@@ -85,10 +90,9 @@ public class ElectivePropertiesWindow {
     
     
     private static void acquireElectiveInfo() {
-        nameField.setText(ElectiveSaver.passElectiveToView(codeName).getName());
-        codeNameField.setText(ElectiveSaver.passElectiveToView(codeName).getCodeName());
-        totalCreditsField.setText(
-                String.valueOf(ElectiveSaver.passElectiveToView(codeName).getTotalCreditsOfCourses()));
+        nameField.setText(ElectiveController.passElectiveToView(codeName).getName());
+        codeNameField.setText(ElectiveController.passElectiveToView(codeName).getCodeName());
+        totalCreditsField.setText(String.valueOf(ElectiveController.passElectiveToView(codeName).getTotalCreditsOfCourses()));
     }
     
     private static GridPane createLayout() {
@@ -101,19 +105,26 @@ public class ElectivePropertiesWindow {
 
     private static void createListView(String codeName) {
         data = FXCollections.observableArrayList();
-        ElectiveSaver.loadCoursesForElective(codeName);
+        ElectiveController.loadCoursesForElective(codeName, "admin");
         courseList.setItems(data);
         courseList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             COURSENAMELABEL.setText(new_val);
         });
     }
 
+    /**
+     *
+     * @param name
+     */
     public static void addCourseToData(String name) {
         data.add(name);
     }
     
+    /**
+     *
+     */
     public static void refreshView() {
         createListView(codeName);
-        totalCreditsField.setText(String.valueOf(ElectiveSaver.passElectiveToView(codeName).getTotalCreditsOfCourses()));
+        totalCreditsField.setText(String.valueOf(ElectiveController.passElectiveToView(codeName).getTotalCreditsOfCourses()));
     }
 }

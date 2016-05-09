@@ -1,5 +1,6 @@
-package window.admin;
+package window.sainReport;
 
+import window.admin.*;
 import controller.AccountController;
 import controller.CourseController;
 import controller.ElectiveController;
@@ -30,7 +31,7 @@ import javafx.stage.Stage;
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class CoursePropertiesWindow {
+public class SainViewCourseWindow {
    static ListView<String> classList = new ListView<>();
    static ObservableList<String> data;
    static final Label CLASSNAMELABEL = new Label();
@@ -40,7 +41,6 @@ public class CoursePropertiesWindow {
    static TextField nameField;
    static TextField codeNameField;
    static TextField totalCreditsField;
-   static Button addClassToCourseButton;
    static Button cancelButton;
     
    private static String courseCodeName;
@@ -75,13 +75,6 @@ public class CoursePropertiesWindow {
         codeNameField.setEditable(false);
         totalCreditsField.setEditable(false);
         
-        addClassToCourseButton = new Button("Add New Class");
-        addClassToCourseButton.setOnAction((ActionEvent event) -> {
-            Stage stage = new Stage();
-            stage.setScene(AddClassToCourseWindow.createScene(courseCodeName));
-            stage.show();
-        });
-        
         cancelButton = new Button("Close");
         cancelButton.setOnAction((ActionEvent event) -> {
             Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -100,13 +93,13 @@ public class CoursePropertiesWindow {
         GridPane grid = new GridPane();
         grid.addColumn(0, nameLabel, codeNameLabel, totalCreditsLabel);
         grid.addColumn(1, nameField, codeNameField, totalCreditsField, cancelButton);
-        grid.addColumn(2, classList, CLASSNAMELABEL, addClassToCourseButton);
+        grid.addColumn(2, classList, CLASSNAMELABEL);
         return grid;
     }
 
     private static void createListView(String codeName) {
         data = FXCollections.observableArrayList();
-        CourseController.loadClassesForCourse(codeName, "admin");
+        CourseController.loadClassesForCourse(codeName, "SAIN");
         classList.setItems(data);
         classList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             CLASSNAMELABEL.setText(new_val);

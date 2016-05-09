@@ -1,39 +1,38 @@
 package controller;
 
-import dataModel.Course;
 import dataModel.Elective;
 import dataModel.Major;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import jdk.management.resource.internal.TotalResourceContext;
 import window.admin.AddElectiveToMajorWindow;
 import window.admin.MajorPropertiesWindow;
 import window.admin.MajorWindow;
+import window.sainReport.SainReportWindow;
+import window.sainReport.SainViewMajorsWindow;
 import window.student.RegisterMajorWindow;
 
 /**
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class MajorSaver {
+public class MajorController {
     private static TreeMap<String, Major> majorMap;
     private static File file;
+
+    /**
+     * Loads up or creates the MajorInfo file.
+     */
     public static void initialize() {
         file = new File("MajorInfo.seq");
         if(file.exists()) {
@@ -76,6 +75,13 @@ public class MajorSaver {
         majorMap.put("CST", new Major("CST", "Computer Science", 2.5));
     }
     
+    /**
+     * Creates a new Major to be added to the list of all Majors
+     * @param name Name of Major
+     * @param codeName Unique identification of Major
+     * @param gpa The required GPA to graduate (not yet implemented)
+     * @return true if the Major is added to the list of all Majors.
+     */
     public static boolean addMajor(String name, String codeName, String gpa) {
         String decimalPattern = "([0-9]*)\\.([0-9]*)";
         boolean match = Pattern.matches(decimalPattern, gpa);
@@ -110,6 +116,11 @@ public class MajorSaver {
         return false;
     }
     
+    /**
+     * Deletes specified major from the list of all majors
+     * @param codeName
+     * @return true if the major is removed from the list.
+     */
     public static boolean deleteMajor(String codeName) {
         if(majorMap.containsKey(codeName)) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -129,17 +140,31 @@ public class MajorSaver {
         return false;
     }
     
+    /**
+     * Returns the size of the list of all majors.
+     * @return
+     */
     public static int getMajorMapSize() {
         return majorMap.size();
     }
 
+    /**
+     * Load the list of all majors to be presented in a view
+     * @param windowName
+     */
     public static void loadMajorsToData(String windowName) {
         majorMap.entrySet().stream().forEach((entry) -> {
             if(windowName.equals("MajorWindow")) { MajorWindow.addMajorToData(entry.getKey()); }
             else if(windowName.equals("RegisterMajorWindow")) { RegisterMajorWindow.addMajorToData(entry.getKey()); }
+            else if(windowName.equals("SAIN")) { SainViewMajorsWindow.addMajorToData(entry.getKey()); }
         });
     }
 
+    /**
+     * Loads the electives for a major to add electives to itself.
+     * @param codeName
+     * @param controller
+     */
     public static void loadElectivesForMajor(String codeName, String controller) {
         ArrayList<Elective> electiveList = majorMap.get(codeName).getElectivesNeeded();
         if (controller.equals("Major Properties Window")) {
@@ -152,15 +177,40 @@ public class MajorSaver {
                 MajorPropertiesWindow.addElectiveToData(electiveList.get(i).getCodeName());
             }
         }
-
     }
+    
+    /**
+     * Loads up the electives required to 'graduate'.
+     * @param majorName The major whose electives are being loaded up.
+     */
+    public static void loadElectivesForSain(String majorName) {
+        Major major = majorMap.get(majorName);
+        ArrayList<Elective> electiveList = major.getElectivesNeeded();
+        Elective elective;
+        for (int i = 0; i < electiveList.size(); i++) {
+            elective = electiveList.get(i);
+            SainReportWindow.addElectiveToCoursesNeeded(elective.getCreditsRequired() + 
+                    " credits for " + elective.getName() + "(" + elective.getCodeName() + ")");
+        }
+        
+    }
+
+    /**
+     * Loads all of the electives for a major to add.
+     */
     public static void loadAllElectives() {
-        ArrayList<Elective> electiveList = ElectiveSaver.obtainAllElectives();
+        ArrayList<Elective> electiveList = ElectiveController.obtainAllElectives();
         for (int i = 0; i < electiveList.size(); i++) {
             AddElectiveToMajorWindow.addElectiveToListOfAllData(electiveList.get(i).getCodeName());
         }
     }
 
+    /**
+     * Changes the required GPA for a major.
+     * @param codeName
+     * @param newGpa
+     * @return true if the major's new GPA is a numerical value between 0 and 4.
+     */
     public static boolean editGPA(String codeName, String newGpa) {
         try {
             double gpaCheck = Double.parseDouble(newGpa);
@@ -173,24 +223,41 @@ public class MajorSaver {
         return false;
     }
     
+    /**
+     * Passes the major to a window for viewing.
+     * @param codeName
+     * @return the Major specified by codeName.
+     */
     public static Major passMajorToView(String codeName) {
         return majorMap.get(codeName);
     }
 
+    /**
+     * Add a new elective to specified major.
+     * @param majorCodeName The Major which will have a new elective added.
+     * @param selectedItem New Elective to be added
+     * @param reqCredits The amount of credits required to 'complete' the elective.
+     */
     public static void addElectiveToMajor(String majorCodeName, String selectedItem, int reqCredits) {
-        Elective elective = ElectiveSaver.passElectiveToView(selectedItem);
+        Elective elective = ElectiveController.passElectiveToView(selectedItem);
         elective.setCreditsRequired(reqCredits);
         majorMap.get(majorCodeName).addElectiveToMajor(elective);
         majorMap.get(majorCodeName).setTotalCredits(majorMap.get(majorCodeName).getTotalCredits() + reqCredits);
     }
     
+    /**
+     * Removes specified elective from major.
+     * @param majorCodeName
+     * @param selectedItem The elective to be removed.
+     */
     public static void removeElectiveFromMajor(String majorCodeName, String selectedItem) {
-        Elective elective = ElectiveSaver.passElectiveToView(selectedItem);
+        Elective elective = ElectiveController.passElectiveToView(selectedItem);
         majorMap.get(majorCodeName).removeElectiveFromMajor(elective);
     }
 
     static Major getMajor(String selectedMajor) {
         return majorMap.get(selectedMajor);
     }
+
 
 }

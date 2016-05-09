@@ -1,7 +1,7 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.MajorController;
 import dataModel.Course;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -41,9 +41,14 @@ public class AddElectiveToMajorWindow {
     
    private static String majorCodeName;
    
+    /**
+     *
+     * @param codeName
+     * @return
+     */
     public static Scene createScene(String codeName) {
         majorCodeName = codeName;
-        createListView(majorCodeName);
+        //createListView(majorCodeName);
         createListOfAllElectives();
         addFields();
         GridPane grid = createLayout();
@@ -51,7 +56,7 @@ public class AddElectiveToMajorWindow {
         StackPane root = new StackPane();
         root.getChildren().add(grid);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 360, 200);
         return scene;
     }
 
@@ -63,7 +68,7 @@ public class AddElectiveToMajorWindow {
         addElectiveToMajorButton.setOnAction((ActionEvent event) -> {
             try {
                 int reqCredits = Integer.parseInt(totalCreditsField.getText());
-                MajorSaver.addElectiveToMajor(majorCodeName, allElectives.getSelectionModel().getSelectedItem(), reqCredits);
+                MajorController.addElectiveToMajor(majorCodeName, allElectives.getSelectionModel().getSelectedItem(), reqCredits);
             } catch (Exception e) {
                 System.out.println("Credits is not numerical.");
             }
@@ -81,35 +86,45 @@ public class AddElectiveToMajorWindow {
     
     private static GridPane createLayout() {
         GridPane grid = new GridPane();
-        grid.addColumn(0, totalCreditsLabel);
-        grid.addColumn(1, totalCreditsField, cancelButton);
-        grid.addColumn(2, electiveList, ELECTIVENAMELABEL, allElectives, addElectiveToMajorButton);
+        grid.addColumn(0, totalCreditsLabel, cancelButton);
+        grid.addColumn(1, totalCreditsField, ELECTIVENAMELABEL, allElectives, addElectiveToMajorButton);
         return grid;
     }
 
     private static void createListView(String codeName) {
         data = FXCollections.observableArrayList();
-        MajorSaver.loadElectivesForMajor(codeName, "Add Elective To Major Window");
+        MajorController.loadElectivesForMajor(codeName, "Add Elective To Major Window");
         electiveList.setItems(data);
         electiveList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             ELECTIVENAMELABEL.setText(new_val);
         });
     }
 
+    /**
+     *
+     * @param name
+     */
     public static void addElectiveToData(String name) {
         data.add(name);
     }
     
+    /**
+     *
+     */
     public static void refreshListView() {
         createListView(majorCodeName);
     }
 
     private static void createListOfAllElectives() {
         dataOfAllElectives = FXCollections.observableArrayList();
-        MajorSaver.loadAllElectives();
+        MajorController.loadAllElectives();
         allElectives.setItems(dataOfAllElectives);
     }
     
+    /**
+     *
+     * @param name
+     */
     public static void addElectiveToListOfAllData(String name) {
         dataOfAllElectives.add(name);
     }

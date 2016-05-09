@@ -1,8 +1,7 @@
-package window.admin;
+package window.sainReport;
 
+import window.admin.*;
 import controller.AccountController;
-import controller.CourseController;
-import controller.ElectiveController;
 import controller.MajorController;
 import controller.Serializer;
 import javafx.application.Application;
@@ -32,47 +31,43 @@ import javafx.stage.Stage;
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class CourseWindow {
-   static ListView<String> courseList = new ListView<>();
+public class SainViewMajorsWindow {
+   static ListView<String> majorList = new ListView<>();
    static ObservableList<String> data;
-   static Button addCourseButton;
-   static Button coursePropertiesButton;
+   static Button selectMajorButton;
    static Button cancelButton;
-   static final Label COURSENAMELABEL = new Label();
+   static final Label MAJORNAMELABEL = new Label();
+   
+   static String userAccountName;
     
     /**
      *
+     * @param userName
      * @return
      */
-    public static Scene createScene() {
+    public static Scene createScene(String userName) {
+        userAccountName = userName;
         createListView();
         addFields();
         VBox box = new VBox();
-        box.getChildren().addAll(courseList, COURSENAMELABEL, addCourseButton, coursePropertiesButton, cancelButton);
-        VBox.setVgrow(courseList, Priority.ALWAYS);
+        box.getChildren().addAll(majorList, MAJORNAMELABEL, selectMajorButton, cancelButton);
+        VBox.setVgrow(majorList, Priority.ALWAYS);
         StackPane root = new StackPane();
         root.getChildren().add(box);
         
-        Scene scene = new Scene(root, 300, 300);
+        Scene scene = new Scene(root, 300, 250);
         return scene;
     }
 
     private static void addFields() {
-        addCourseButton = new Button("Add Course");
-        addCourseButton.setOnAction((ActionEvent event) -> {
+        selectMajorButton = new Button("Select Major");
+        selectMajorButton.setOnAction((ActionEvent event) -> {
             Stage stage = new Stage();
-            stage.setScene(AddCourseWindow.createScene());
+            stage.setScene(SainReportWindow.createScene(userAccountName, majorList.getSelectionModel().getSelectedItem()));
             stage.show();
         });
         
-        coursePropertiesButton = new Button("View Properties");
-        coursePropertiesButton.setOnAction((ActionEvent event) -> {
-            Stage stage = new Stage();
-            stage.setScene(CoursePropertiesWindow.createScene(courseList.getSelectionModel().getSelectedItem()));
-            stage.show();
-        });
-        
-        cancelButton = new Button("Save & Quit");
+        cancelButton = new Button("Save and Quit");
         cancelButton.setOnAction((ActionEvent event) -> {
             Serializer.saveFiles();
             Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -82,10 +77,10 @@ public class CourseWindow {
     
     private static void createListView() {
         data = FXCollections.observableArrayList();
-        CourseController.loadCoursesToData();
-        courseList.setItems(data);
-        courseList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-            COURSENAMELABEL.setText(new_val);
+        MajorController.loadMajorsToData("SAIN");
+        majorList.setItems(data);
+        majorList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+            MAJORNAMELABEL.setText(new_val);
         });
     }
 
@@ -100,7 +95,7 @@ public class CourseWindow {
      *
      * @param name
      */
-    public static void addCourseToData(String name) {
+    public static void addMajorToData(String name) {
         data.add(name);
     }
 }

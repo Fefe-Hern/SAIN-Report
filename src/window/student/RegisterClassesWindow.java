@@ -1,8 +1,9 @@
 package window.student;
 
 import window.admin.*;
-import controller.AccountSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.ClassController;
+import controller.MajorController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -22,7 +25,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Fefe-Hern <https://github.com/Fefe-Hern>
+ * @author fefe
  */
 public class RegisterClassesWindow {
    static Label crnLabel;
@@ -32,6 +35,11 @@ public class RegisterClassesWindow {
    
    static String userAccountName;
     
+    /**
+     *
+     * @param userName
+     * @return
+     */
     public static Scene createScene(String userName) {
         userAccountName = userName;
         addFields();
@@ -50,8 +58,14 @@ public class RegisterClassesWindow {
         
         registerButton = new Button("Register");
         registerButton.setOnAction((ActionEvent event) -> {
-            if(AccountSaver.addClassToStudent(userAccountName, crnField.getText())) {
+            if (AccountController.addClassToStudent(userAccountName, crnField.getText())) {
                 Stage stage = (Stage) registerButton.getScene().getWindow();
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Class registered");
+                alert.setHeaderText(ClassController.passClassToView(crnField.getText()).getNameAndCode());
+                alert.setContentText("Class has been registered. Professor is " + ClassController.passClassToView(
+                        crnField.getText()).getInstructor().getFullName());
+                alert.showAndWait();
                 stage.close();
             }
         });

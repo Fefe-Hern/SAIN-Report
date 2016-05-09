@@ -1,8 +1,8 @@
 package window.student;
 
 import window.admin.*;
-import controller.AccountSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.MajorController;
 import controller.Serializer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -40,6 +40,11 @@ public class RegisterMajorWindow {
    static final Label MAJORNAMELABEL = new Label();
    static String accountUserName;
     
+    /**
+     *
+     * @param studentUserName
+     * @return
+     */
     public static Scene createScene(String studentUserName) {
         accountUserName = studentUserName;
         createListView();
@@ -57,7 +62,7 @@ public class RegisterMajorWindow {
     private static void addFields() {
         registerMajorButton = new Button("Register Major");
         registerMajorButton.setOnAction((ActionEvent event) -> {
-            AccountSaver.setMajorForStudent(accountUserName, majorList.getSelectionModel().getSelectedItem());
+            AccountController.setMajorForStudent(accountUserName, majorList.getSelectionModel().getSelectedItem());
             Serializer.saveFiles();
             Stage stage = (Stage) registerMajorButton.getScene().getWindow();
             stage.close();
@@ -78,17 +83,24 @@ public class RegisterMajorWindow {
     
     private static void createListView() {
         data = FXCollections.observableArrayList();
-        MajorSaver.loadMajorsToData("RegisterMajorWindow");
+        MajorController.loadMajorsToData("RegisterMajorWindow");
         majorList.setItems(data);
         majorList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             MAJORNAMELABEL.setText(new_val);
         });
     }
 
+    /**
+     *
+     */
     public static void refreshListView() {
         createListView();
     }
 
+    /**
+     *
+     * @param name
+     */
     public static void addMajorToData(String name) {
         data.add(name);
     }

@@ -1,8 +1,8 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.ElectiveSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.ElectiveController;
+import controller.MajorController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,6 +32,10 @@ public class AddElectiveWindow {
    static Button createButton;
    static Button cancelButton;
     
+    /**
+     *
+     * @return
+     */
     public static Scene createScene() {
         addFields();
         GridPane grid = createLayout();
@@ -51,7 +55,7 @@ public class AddElectiveWindow {
         
         createButton = new Button("Create Elective");
         createButton.setOnAction((ActionEvent event) -> {
-            if(ElectiveSaver.addElective(nameField.getText(), codeNameField.getText())) {
+            if(ElectiveController.addElective(nameField.getText(), codeNameField.getText())) {
                 Stage stage = (Stage) createButton.getScene().getWindow();
                 stage.close();
             }

@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.HashMap;
 import dataModel.Course;
 import dataModel.Elective;
 import java.io.File;
@@ -19,13 +18,18 @@ import javafx.scene.control.ButtonType;
 import window.admin.AddCourseToElectiveWindow;
 import window.admin.ElectivePropertiesWindow;
 import window.admin.ElectiveWindow;
+import window.sainReport.SainViewElectiveWindow;
 /**
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class ElectiveSaver {
+public class ElectiveController {
     private static TreeMap<String, Elective> electiveMap;
     private static File file;
+
+    /**
+     * Load or create a file called ElectiveInfo.
+     */
     public static void initialize() {
         file = new File("ElectiveInfo.seq");
         if(file.exists()) {
@@ -68,19 +72,39 @@ public class ElectiveSaver {
         electiveMap.put("CST", new Elective("Computer Science", "CST"));
     }
     
+    /**
+     * Loads the electives to the list of data for the ElectiveWindow.
+     */
     public static void loadElectivesToData() {
         electiveMap.entrySet().stream().forEach((entry) -> {
             ElectiveWindow.addElectiveToData(entry.getKey());
         });
     }
     
-    public static void loadCoursesForElective(String codeName) {
+    /**
+     * Loads the courses for a specified elective.
+     * @param codeName The unique code name of the Elective.
+     * @param window The window requesting the information.
+     */
+    public static void loadCoursesForElective(String codeName, String window) {
         ArrayList<Course> courseList = electiveMap.get(codeName).getCoursesInElective();
-        for (int i = 0; i < courseList.size(); i++) {
-            ElectivePropertiesWindow.addCourseToData(courseList.get(i).getCodeName());
+        if (window.equals("admin")) {
+            for (int i = 0; i < courseList.size(); i++) {
+                ElectivePropertiesWindow.addCourseToData(courseList.get(i).getCodeName());
+            }
+        } else if (window.equals("SAIN")) {
+            for (int i = 0; i < courseList.size(); i++) {
+                SainViewElectiveWindow.addCourseToData(courseList.get(i).getCodeName());
+            }
         }
     }
     
+    /**
+     * Creates a new elective.
+     * @param name
+     * @param codeName
+     * @return true if the elective doesn't already exist and the textfields are all full.
+     */
     public static boolean addElective(String name, String codeName) {
         Alert alert = new Alert(AlertType.ERROR);
         if (name.isEmpty() || codeName.isEmpty()) {
@@ -106,6 +130,11 @@ public class ElectiveSaver {
         return false;
     }
 
+    /**
+     * Deletes the specified elective from the list of all electives.
+     * @param codeName
+     * @return true if the elective is confirmed to be deleted.
+     */
     public static boolean deleteElective(String codeName) {
         if (electiveMap.containsKey(codeName)) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -125,10 +154,19 @@ public class ElectiveSaver {
         return false;
     }
 
+    /**
+     * Passes the elective to the requested Window.
+     * @param codeName
+     * @return the Elective obtained by the codeName.
+     */
     public static Elective passElectiveToView(String codeName) {
         return electiveMap.get(codeName).deepCopy();
     }
     
+    /**
+     * Passes the size of the list of all electives
+     * @return the size of the list of all electives.
+     */
     public static int passElectiveMapSize() {
         return electiveMap.size();
     }
@@ -141,8 +179,14 @@ public class ElectiveSaver {
         return electiveList;
     }
 
+    /**
+     * Adds a specified course to the specified elective.
+     * @param courseCodeName
+     * @param electiveName
+     * @return true if no issue is obtained.
+     */
     public static boolean addCourse(String courseCodeName, String electiveName) {
-        Course course = CourseSaver.passCourseToView(courseCodeName);
+        Course course = CourseController.passCourseToView(courseCodeName);
         try {
             electiveMap.get(electiveName).addCourseToElective(course);
             return true;
@@ -151,8 +195,11 @@ public class ElectiveSaver {
         }
     }
     
+    /**
+     * Loads up all courses so as to be picked out by an elective.
+     */
     public static void loadAllCourses() {
-        ArrayList<Course> courseList = CourseSaver.obtainAllCourses();
+        ArrayList<Course> courseList = CourseController.obtainAllCourses();
         for (int i = 0; i < courseList.size(); i++) {
             AddCourseToElectiveWindow.addCourseToListOfAllData(courseList.get(i).getCodeName());
         }

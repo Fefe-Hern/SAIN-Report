@@ -30,7 +30,7 @@ public class InstructorSain extends Application {
         StackPane root = new StackPane();
         root.getChildren().add(pane);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 200, 150);
         
         primaryStage.setTitle("Instructor Pane");
         primaryStage.setOnCloseRequest((WindowEvent event) -> {

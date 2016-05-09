@@ -1,9 +1,9 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.CourseSaver;
-import controller.ElectiveSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.CourseController;
+import controller.ElectiveController;
+import controller.MajorController;
 import dataModel.Course;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -40,6 +40,11 @@ public class AddClassToCourseWindow {
     
    private static String courseCodeName;
    
+    /**
+     *
+     * @param codeName
+     * @return
+     */
     public static Scene createScene(String codeName) {
         courseCodeName = codeName;
         addFields();
@@ -47,7 +52,7 @@ public class AddClassToCourseWindow {
         StackPane root = new StackPane();
         root.getChildren().add(grid);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 400, 130);
         return scene;
     }
 
@@ -62,8 +67,8 @@ public class AddClassToCourseWindow {
             String instructorUserName = instructorUserNameField.getText();
             String crn = crnField.getText();
             if(!instructorUserName.isEmpty() && !crn.isEmpty()) {
-                if(AccountSaver.searchForInstructor(instructorUserName)) {
-                    if (CourseSaver.createClassForCourse(courseCodeName, crn, instructorUserName)) {
+                if(AccountController.searchForInstructor(instructorUserName)) {
+                    if (CourseController.createClassForCourse(courseCodeName, crn, instructorUserName)) {
                         Stage stage = (Stage) addClassToCourseButton.getScene().getWindow();
                         stage.close();
                     }

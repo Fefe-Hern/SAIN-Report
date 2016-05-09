@@ -1,9 +1,9 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.CourseSaver;
-import controller.ElectiveSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.CourseController;
+import controller.ElectiveController;
+import controller.MajorController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,6 +35,10 @@ public class AddCourseWindow {
    static Button createButton;
    static Button cancelButton;
     
+    /**
+     *
+     * @return
+     */
     public static Scene createScene() {
         addFields();
         GridPane grid = createLayout();
@@ -42,13 +46,13 @@ public class AddCourseWindow {
         StackPane root = new StackPane();
         root.getChildren().add(grid);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 400, 150);
         return scene;
     }
 
     private static void addFields() {
-        nameLabel = new Label("Course Name: ");
-        codeNameLabel = new Label("Code Name: ");
+        nameLabel = new Label("Course Name (Ex: Art I): ");
+        codeNameLabel = new Label("Code Name (Ex:CST 222): ");
         creditsGivenLabel = new Label("Credits Given: ");
         nameField = new TextField();
         codeNameField = new TextField();
@@ -56,7 +60,7 @@ public class AddCourseWindow {
         
         createButton = new Button("Create Course");
         createButton.setOnAction((ActionEvent event) -> {
-            if(CourseSaver.addCourse(nameField.getText(), codeNameField.getText(), creditsGivenField.getText())) {
+            if(CourseController.addCourse(nameField.getText(), codeNameField.getText(), creditsGivenField.getText())) {
                 Stage stage = (Stage) createButton.getScene().getWindow();
                 stage.close();
             }

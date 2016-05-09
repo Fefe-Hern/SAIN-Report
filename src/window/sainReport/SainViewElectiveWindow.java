@@ -1,7 +1,7 @@
-package window.admin;
+package window.sainReport;
 
+import window.admin.*;
 import controller.AccountController;
-import controller.CourseController;
 import controller.ElectiveController;
 import controller.MajorController;
 import dataModel.Course;
@@ -30,20 +30,20 @@ import javafx.stage.Stage;
  *
  * @author Fefe-Hern <https://github.com/Fefe-Hern>
  */
-public class CoursePropertiesWindow {
-   static ListView<String> classList = new ListView<>();
+public class SainViewElectiveWindow {
+   static ListView<String> courseList = new ListView<>();
    static ObservableList<String> data;
-   static final Label CLASSNAMELABEL = new Label();
    static Label nameLabel;
    static Label codeNameLabel;
    static Label totalCreditsLabel;
    static TextField nameField;
    static TextField codeNameField;
    static TextField totalCreditsField;
-   static Button addClassToCourseButton;
+   
+   static Button viewCourseButton;
    static Button cancelButton;
     
-   private static String courseCodeName;
+   private static String codeName;
    
     /**
      *
@@ -51,10 +51,10 @@ public class CoursePropertiesWindow {
      * @return
      */
     public static Scene createScene(String name) {
-        courseCodeName = name;
-        createListView(courseCodeName);
+        codeName = name;
+        createListView(codeName);
         addFields();
-        acquireCourseInfo();
+        acquireElectiveInfo();
         GridPane grid = createLayout();
         Button btn = new Button();
         StackPane root = new StackPane();
@@ -65,21 +65,20 @@ public class CoursePropertiesWindow {
     }
 
     private static void addFields() {
-        nameLabel = new Label("Course Name: ");
+        nameLabel = new Label("Elective Name: ");
         codeNameLabel = new Label("Code Name: ");
-        totalCreditsLabel = new Label("Credits Given:");
+        totalCreditsLabel = new Label("Total Credits:");
         nameField = new TextField();
         codeNameField = new TextField();
         totalCreditsField = new TextField();
         nameField.setEditable(false);
         codeNameField.setEditable(false);
         totalCreditsField.setEditable(false);
-        
-        addClassToCourseButton = new Button("Add New Class");
-        addClassToCourseButton.setOnAction((ActionEvent event) -> {
-            Stage stage = new Stage();
-            stage.setScene(AddClassToCourseWindow.createScene(courseCodeName));
-            stage.show();
+        viewCourseButton = new Button("View Classes");
+        viewCourseButton.setOnAction((ActionEvent event) -> {
+                Stage stage = new Stage();
+                stage.setScene(SainViewCourseWindow.createScene(courseList.getSelectionModel().getSelectedItem()));
+                stage.show();
         });
         
         cancelButton = new Button("Close");
@@ -90,34 +89,31 @@ public class CoursePropertiesWindow {
 }
     
     
-    private static void acquireCourseInfo() {
-        nameField.setText(CourseController.passCourseToView(courseCodeName).getName());
-        codeNameField.setText(CourseController.passCourseToView(courseCodeName).getCodeName());
-        totalCreditsField.setText(String.valueOf(CourseController.passCourseToView(courseCodeName).getCreditsGiven()));
+    private static void acquireElectiveInfo() {
+        nameField.setText(ElectiveController.passElectiveToView(codeName).getName());
+        codeNameField.setText(ElectiveController.passElectiveToView(codeName).getCodeName());
+        totalCreditsField.setText(String.valueOf(ElectiveController.passElectiveToView(codeName).getTotalCreditsOfCourses()));
     }
     
     private static GridPane createLayout() {
         GridPane grid = new GridPane();
         grid.addColumn(0, nameLabel, codeNameLabel, totalCreditsLabel);
         grid.addColumn(1, nameField, codeNameField, totalCreditsField, cancelButton);
-        grid.addColumn(2, classList, CLASSNAMELABEL, addClassToCourseButton);
+        grid.addColumn(2, courseList, viewCourseButton);
         return grid;
     }
 
     private static void createListView(String codeName) {
         data = FXCollections.observableArrayList();
-        CourseController.loadClassesForCourse(codeName, "admin");
-        classList.setItems(data);
-        classList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-            CLASSNAMELABEL.setText(new_val);
-        });
+        ElectiveController.loadCoursesForElective(codeName, "SAIN");
+        courseList.setItems(data);
     }
 
     /**
      *
      * @param name
      */
-    public static void addClassToData(String name) {
+    public static void addCourseToData(String name) {
         data.add(name);
     }
     
@@ -125,7 +121,7 @@ public class CoursePropertiesWindow {
      *
      */
     public static void refreshView() {
-        createListView(courseCodeName);
-        totalCreditsField.setText(String.valueOf(CourseController.passCourseToView(courseCodeName).getCreditsGiven()));
+        createListView(codeName);
+        totalCreditsField.setText(String.valueOf(ElectiveController.passElectiveToView(codeName).getTotalCreditsOfCourses()));
     }
 }

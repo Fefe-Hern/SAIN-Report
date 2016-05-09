@@ -1,7 +1,7 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.MajorController;
 import dataModel.Course;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -47,6 +47,11 @@ public class MajorPropertiesWindow {
     
    private static String codeName;
    
+    /**
+     *
+     * @param name
+     * @return
+     */
     public static Scene createScene(String name) {
         codeName = name;
         createListView(codeName);
@@ -76,7 +81,7 @@ public class MajorPropertiesWindow {
         
         changeGpaButton = new Button("Change GPA Req");
         changeGpaButton.setOnAction((ActionEvent event) -> {
-            if(!MajorSaver.editGPA(codeNameField.getText(), gpaField.getText())) {
+            if(!MajorController.editGPA(codeNameField.getText(), gpaField.getText())) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("GPA Numerical Error");
                 alert.setHeaderText("Error:");
@@ -94,7 +99,7 @@ public class MajorPropertiesWindow {
         
         removeElectiveFromMajorButton = new Button("Remove Elective");
         removeElectiveFromMajorButton.setOnAction((ActionEvent event) -> {
-            MajorSaver.removeElectiveFromMajor(codeName, electiveList.getSelectionModel().getSelectedItem());
+            MajorController.removeElectiveFromMajor(codeName, electiveList.getSelectionModel().getSelectedItem());
             refreshView();
         });
         
@@ -107,12 +112,10 @@ public class MajorPropertiesWindow {
     
     
     private static void acquireMajorInfo() {
-        nameField.setText(MajorSaver.passMajorToView(codeName).getName());
-        codeNameField.setText(MajorSaver.passMajorToView(codeName).getCodeName());
-        gpaField.setText(
-                String.valueOf(MajorSaver.passMajorToView(codeName).getGPAreq()));
-        totalCreditsField.setText(
-                String.valueOf(MajorSaver.passMajorToView(codeName).getTotalCredits()));
+        nameField.setText(MajorController.passMajorToView(codeName).getName());
+        codeNameField.setText(MajorController.passMajorToView(codeName).getCodeName());
+        gpaField.setText(String.valueOf(MajorController.passMajorToView(codeName).getGPAreq()));
+        totalCreditsField.setText(String.valueOf(MajorController.passMajorToView(codeName).getTotalCredits()));
     }
     
     private static GridPane createLayout() {
@@ -125,19 +128,26 @@ public class MajorPropertiesWindow {
 
     private static void createListView(String codeName) {
         data = FXCollections.observableArrayList();
-        MajorSaver.loadElectivesForMajor(codeName, "Major Properties Window");
+        MajorController.loadElectivesForMajor(codeName, "Major Properties Window");
         electiveList.setItems(data);
         electiveList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             ELECTIVENAMELABEL.setText(new_val);
         });
     }
 
+    /**
+     *
+     * @param name
+     */
     public static void addElectiveToData(String name) {
         data.add(name);
     }
     
+    /**
+     *
+     */
     public static void refreshView() {
         createListView(codeName);
-        totalCreditsField.setText(String.valueOf(MajorSaver.passMajorToView(codeName).getTotalCredits()));
+        totalCreditsField.setText(String.valueOf(MajorController.passMajorToView(codeName).getTotalCredits()));
     }
 }

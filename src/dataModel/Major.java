@@ -14,6 +14,12 @@ public class Major implements Serializable {
     private int totalCredits;
     private ArrayList<Elective> electivesNeeded;
 
+    /**
+     *
+     * @param codeName
+     * @param name
+     * @param GPAreq
+     */
     public Major(String codeName, String name, double GPAreq) {
         this.codeName = codeName;
         this.name = name;
@@ -21,6 +27,10 @@ public class Major implements Serializable {
         electivesNeeded = new ArrayList<>();
     }
     
+    /**
+     *
+     * @return
+     */
     public ArrayList<Elective> getElectivesNeeded() {
         ArrayList<Elective> copyOfElectivesNeeded = new ArrayList<>();
         for (int i = 0; i < electivesNeeded.size(); i++) {
@@ -29,10 +39,20 @@ public class Major implements Serializable {
         return copyOfElectivesNeeded;
     }
     
+    /**
+     *
+     * @param electiveToAdd
+     * @return
+     */
     public boolean addElectiveToMajor(Elective electiveToAdd) {
         return electivesNeeded.add(electiveToAdd);
     }
     
+    /**
+     *
+     * @param electiveToRemove
+     * @return
+     */
     public boolean removeElectiveFromMajor(Elective electiveToRemove) {
         setTotalCredits(getTotalCredits() - electiveToRemove.getCreditsRequired());
         for (Elective elective : electivesNeeded) {
@@ -46,26 +66,50 @@ public class Major implements Serializable {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCodeName() {
         return codeName;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getGPAreq() {
         return GPAreq;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getTotalCredits() {
         return totalCredits;
     }
 
+    /**
+     *
+     * @param GPAreq
+     */
     public void setGPAreq(double GPAreq) {
         this.GPAreq = GPAreq;
     }
 
+    /**
+     *
+     * @param totalCredits
+     */
     public void setTotalCredits(int totalCredits) {
         this.totalCredits = totalCredits;
     }

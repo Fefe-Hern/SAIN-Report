@@ -1,11 +1,11 @@
 package window.instructor;
 
 import window.admin.*;
-import controller.AccountSaver;
-import controller.ClassSaver;
-import controller.CourseSaver;
-import controller.ElectiveSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.ClassController;
+import controller.CourseController;
+import controller.ElectiveController;
+import controller.MajorController;
 import dataModel.Course;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -43,10 +43,16 @@ public class ViewClassWindow {
    static TextField codeNameField;
    static TextField crnField;
    static Button gradeClassButton;
+   static Button cleanClassButton;
    static Button cancelButton;
     
    private static String classCodeName;
    
+    /**
+     *
+     * @param name
+     * @return
+     */
     public static Scene createScene(String name) {
         classCodeName = name;
         createListView(classCodeName);
@@ -71,11 +77,19 @@ public class ViewClassWindow {
         codeNameField.setEditable(false);
         crnField.setEditable(false);
         
-        gradeClassButton = new Button("Grade Students(DONT)");
+        gradeClassButton = new Button("Grade Student");
         gradeClassButton.setOnAction((ActionEvent event) -> {
             Stage stage = new Stage();
-            stage.setScene(GradeStudentsWindow.createScene(classCodeName));
+            stage.setScene(GradeStudentsWindow.createScene(studentList.getSelectionModel().getSelectedItem(), classCodeName));
             stage.show();
+        });
+        
+        
+        cleanClassButton = new Button("Finish Class");
+        cleanClassButton.setOnAction((ActionEvent event) -> {
+            ClassController.finishClass(classCodeName);
+            Stage stage = (Stage) cleanClassButton.getScene().getWindow();
+            stage.close();
         });
         
         cancelButton = new Button("Close");
@@ -87,32 +101,39 @@ public class ViewClassWindow {
     
     
     private static void acquireClassInfo() {
-        nameField.setText(ClassSaver.passClassToView(classCodeName).getName());
-        codeNameField.setText(ClassSaver.passClassToView(classCodeName).getCodeName());
-        crnField.setText(ClassSaver.passClassToView(classCodeName).getCrn());
+        nameField.setText(ClassController.passClassToView(classCodeName).getName());
+        codeNameField.setText(ClassController.passClassToView(classCodeName).getCodeName());
+        crnField.setText(ClassController.passClassToView(classCodeName).getCrn());
     }
     
     private static GridPane createLayout() {
         GridPane grid = new GridPane();
         grid.addColumn(0, nameLabel, codeNameLabel, crnLabel);
         grid.addColumn(1, nameField, codeNameField, crnField, cancelButton);
-        grid.addColumn(2, studentList, STUDENTNAMELABEL, gradeClassButton);
+        grid.addColumn(2, studentList, STUDENTNAMELABEL, gradeClassButton, cleanClassButton);
         return grid;
     }
 
     private static void createListView(String codeName) {
         data = FXCollections.observableArrayList();
-        ClassSaver.loadStudentsForClass(codeName);
+        ClassController.loadStudentsForClass(codeName);
         studentList.setItems(data);
         studentList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             STUDENTNAMELABEL.setText(new_val);
         });
     }
 
+    /**
+     *
+     * @param name
+     */
     public static void addStudentToData(String name) {
         data.add(name);
     }
     
+    /**
+     *
+     */
     public static void refreshView() {
         createListView(classCodeName);
     }

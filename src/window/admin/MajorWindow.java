@@ -1,7 +1,7 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.MajorController;
 import controller.Serializer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -39,6 +39,10 @@ public class MajorWindow {
    static Button cancelButton;
    static final Label MAJORNAMELABEL = new Label();
     
+    /**
+     *
+     * @return
+     */
     public static Scene createScene() {
         createListView();
         addFields();
@@ -49,7 +53,7 @@ public class MajorWindow {
         StackPane root = new StackPane();
         root.getChildren().add(box);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 300, 300);
         return scene;
     }
 
@@ -70,7 +74,7 @@ public class MajorWindow {
         
         deleteMajorButton = new Button("Delete Selected Major");
         deleteMajorButton.setOnAction((ActionEvent event) -> {
-            MajorSaver.deleteMajor(majorList.getSelectionModel().getSelectedItem());
+            MajorController.deleteMajor(majorList.getSelectionModel().getSelectedItem());
         });
         
         cancelButton = new Button("Save and Quit");
@@ -83,17 +87,24 @@ public class MajorWindow {
     
     private static void createListView() {
         data = FXCollections.observableArrayList();
-        MajorSaver.loadMajorsToData("MajorWindow");
+        MajorController.loadMajorsToData("MajorWindow");
         majorList.setItems(data);
         majorList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             MAJORNAMELABEL.setText(new_val);
         });
     }
 
+    /**
+     *
+     */
     public static void refreshListView() {
         createListView();
     }
 
+    /**
+     *
+     * @param name
+     */
     public static void addMajorToData(String name) {
         data.add(name);
     }

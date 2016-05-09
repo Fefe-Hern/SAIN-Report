@@ -1,6 +1,6 @@
 package window.admin;
 
-import controller.AccountSaver;
+import controller.AccountController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -38,6 +38,10 @@ public class RegisterAccountWindow {
    static Button createButton;
    static Button cancelButton;
     
+    /**
+     *
+     * @return
+     */
     public static Scene createScene() {
         addFields();
         GridPane grid = createLayout();
@@ -64,7 +68,7 @@ public class RegisterAccountWindow {
         createButton = new Button("Create Account");
         createButton.setOnAction((ActionEvent event) -> {
             
-            if(AccountSaver.saveAccount(firstNameField.getText(), lastNameField.getText(),
+            if(AccountController.saveAccount(firstNameField.getText(), lastNameField.getText(),
                     userNameField.getText(), passwordField.getText(),
                     (String) group.getSelectedToggle().getUserData())) {
                 Stage stage = (Stage) createButton.getScene().getWindow();

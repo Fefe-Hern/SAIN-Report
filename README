@@ -1,0 +1,31 @@
+Greetings:
+UML Diagrams of original planned out program are in SAIN_UML Folder.
+
+Accounts that can be utilized to gain access to College System:
+
+Admin Accounts:
+Name: admin
+Password: password
+\
+Name: hernf07
+Password: test
+
+Instructor Accounts:
+Name: instructor
+Password: password
+\
+Name: cstinstructor
+Password: test
+\
+Name: matinstructor
+Password: test
+\
+Name: [elective(like MAT for math)]instructor
+Password: test
+
+Student Accounts:
+Name: student
+Password: password
+\
+Name: hernf09
+Password: test

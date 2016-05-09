@@ -38,7 +38,7 @@ public class AdminSain extends Application {
         StackPane root = new StackPane();
         root.getChildren().add(pane);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 150, 200);
         
         primaryStage.setTitle("Admin Pane");
         primaryStage.setOnCloseRequest((WindowEvent event) -> {

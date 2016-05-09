@@ -1,8 +1,8 @@
 package window.admin;
 
-import controller.AccountSaver;
-import controller.ElectiveSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.ElectiveController;
+import controller.MajorController;
 import controller.Serializer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -40,6 +40,10 @@ public class ElectiveWindow {
    static Button cancelButton;
    static final Label ELECTIVENAMELABEL = new Label();
     
+    /**
+     *
+     * @return
+     */
     public static Scene createScene() {
         createListView();
         addFields();
@@ -50,7 +54,7 @@ public class ElectiveWindow {
         StackPane root = new StackPane();
         root.getChildren().add(box);
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 300, 300);
         return scene;
     }
 
@@ -71,7 +75,7 @@ public class ElectiveWindow {
         
         deleteElectiveButton = new Button("Delete Selected Elective");
         deleteElectiveButton.setOnAction((ActionEvent event) -> {
-            ElectiveSaver.deleteElective(electiveList.getSelectionModel().getSelectedItem());
+            ElectiveController.deleteElective(electiveList.getSelectionModel().getSelectedItem());
         });
         
         cancelButton = new Button("Save & Quit");
@@ -84,17 +88,24 @@ public class ElectiveWindow {
     
     private static void createListView() {
         data = FXCollections.observableArrayList();
-        ElectiveSaver.loadElectivesToData();
+        ElectiveController.loadElectivesToData();
         electiveList.setItems(data);
         electiveList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             ELECTIVENAMELABEL.setText(new_val);
         });
     }
 
+    /**
+     *
+     */
     public static void refreshListView() {
         createListView();
     }
 
+    /**
+     *
+     * @param name
+     */
     public static void addElectiveToData(String name) {
         data.add(name);
     }

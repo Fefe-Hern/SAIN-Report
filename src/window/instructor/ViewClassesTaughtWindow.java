@@ -1,10 +1,10 @@
 package window.instructor;
 
 import window.admin.*;
-import controller.AccountSaver;
-import controller.CourseSaver;
-import controller.ElectiveSaver;
-import controller.MajorSaver;
+import controller.AccountController;
+import controller.CourseController;
+import controller.ElectiveController;
+import controller.MajorController;
 import dataModel.Course;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -40,6 +40,11 @@ public class ViewClassesTaughtWindow {
     
    private static String instructorName;
    
+    /**
+     *
+     * @param instructorUserName
+     * @return
+     */
     public static Scene createScene(String instructorUserName) {
         instructorName = instructorUserName;
         createListView(instructorName);
@@ -49,7 +54,7 @@ public class ViewClassesTaughtWindow {
         StackPane root = new StackPane();
         root.getChildren().add(grid);
         
-        Scene scene = new Scene(root, 700, 250);
+        Scene scene = new Scene(root, 300, 250);
         return scene;
     }
 
@@ -76,17 +81,24 @@ public class ViewClassesTaughtWindow {
 
     private static void createListView(String instructorUserName) {
         data = FXCollections.observableArrayList();
-        AccountSaver.loadClassesForInstructor(instructorUserName);
+        AccountController.loadClassesForInstructor(instructorUserName);
         classList.setItems(data);
         classList.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             CLASSNAMELABEL.setText(new_val);
         });
     }
 
+    /**
+     *
+     * @param name
+     */
     public static void addClassToData(String name) {
         data.add(name);
     }
     
+    /**
+     *
+     */
     public static void refreshView() {
         createListView(instructorName);
     }

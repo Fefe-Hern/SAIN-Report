@@ -1,6 +1,6 @@
 package dataModel;
 
-import controller.ClassSaver;
+import controller.ClassController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +16,12 @@ public class Course implements Serializable {
     private int creditsGiven;
     private HashMap<String, Classes> listOfClasses;
 
+    /**
+     *
+     * @param name
+     * @param codeName
+     * @param creditsGiven
+     */
     public Course(String name, String codeName, int creditsGiven) {
         this.name = name;
         this.codeName = codeName;
@@ -23,6 +29,13 @@ public class Course implements Serializable {
         listOfClasses = new HashMap();
     }
 
+    /**
+     *
+     * @param name
+     * @param codeName
+     * @param creditsGiven
+     * @param listOfClasses
+     */
     public Course(String name, String codeName, int creditsGiven, HashMap<String, Classes> listOfClasses) {
         this.name = name;
         this.codeName = codeName;
@@ -30,27 +43,50 @@ public class Course implements Serializable {
         this.listOfClasses = listOfClasses;
     }
     
-    
+    /**
+     *
+     * @return
+     */
     public Course deepCopy() {
         return new Course(name, codeName, creditsGiven,listOfClasses);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCodeName() {
         return codeName;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getCreditsGiven() {
         return creditsGiven;
     }
 
+    /**
+     *
+     * @param creditsGiven
+     */
     public void setCreditsGiven(int creditsGiven) {
         this.creditsGiven = creditsGiven;
     }
     
+    /**
+     *
+     * @return
+     */
     public ArrayList<Classes> getClassesInCourse() {
         ArrayList<Classes> copyOfClassesInCourse = new ArrayList<>();
         for (Map.Entry<String, Classes> entry : listOfClasses.entrySet()) {
@@ -59,12 +95,18 @@ public class Course implements Serializable {
         return copyOfClassesInCourse;
     }
     
+    /**
+     *
+     * @param instructor
+     * @param CRN
+     * @return
+     */
     public boolean addClass(Instructor instructor, String CRN) {
         try{
             Classes classToAdd = new Classes(getName(), getCodeName(), CRN, getCreditsGiven(), instructor);
             listOfClasses.put(CRN, classToAdd);
             instructor.addClassToTaught(classToAdd);
-            ClassSaver.saveClass(classToAdd);
+            ClassController.saveClass(classToAdd);
             return true;
         }catch(Exception e) {
             return false;
